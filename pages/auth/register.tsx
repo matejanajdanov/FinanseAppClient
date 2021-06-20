@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputComponent from "../../components/utils/InputComponent";
+import InputComponent from "../../components/utils/formComponents/InputComponent";
 
 const register = () => {
   const [credentials, setCredentials] = useState({
