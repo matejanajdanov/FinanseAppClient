@@ -63,7 +63,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "FieldError",
+        "name": "ErrorFieldUser",
         "description": null,
         "fields": [
           {
@@ -220,6 +220,22 @@
             "deprecationReason": null
           },
           {
+            "name": "logout",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "createProfile",
             "description": null,
             "args": [
@@ -360,6 +376,16 @@
         ],
         "inputFields": null,
         "interfaces": [],
+        "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "SCALAR",
+        "name": "Boolean",
+        "description": "The `Boolean` scalar type represents `true` or `false`.",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },
@@ -513,7 +539,7 @@
             "deprecationReason": null
           },
           {
-            "name": "me",
+            "name": "currentUser",
             "description": null,
             "args": [],
             "type": {
@@ -624,7 +650,7 @@
                 "name": null,
                 "ofType": {
                   "kind": "OBJECT",
-                  "name": "FieldError",
+                  "name": "ErrorFieldUser",
                   "ofType": null
                 }
               }
@@ -635,16 +661,6 @@
         ],
         "inputFields": null,
         "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "SCALAR",
-        "name": "Boolean",
-        "description": "The `Boolean` scalar type represents `true` or `false`.",
-        "fields": null,
-        "inputFields": null,
-        "interfaces": null,
         "enumValues": null,
         "possibleTypes": null
       },

@@ -1,0 +1,21 @@
+# Write your query or mutation here
+mutation register(
+  $username: String!
+  $password: String!
+  $confirmPassword: String!
+) {
+  register(
+    username: $username
+    password: $password
+    confirmPassword: $confirmPassword
+  ) {
+    errors {
+      field
+      message
+    }
+    user {
+      id
+      username
+    }
+  }
+}

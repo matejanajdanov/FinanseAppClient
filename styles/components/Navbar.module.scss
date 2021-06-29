@@ -1,0 +1,28 @@
+.nav {
+  border-radius: 20px;
+}
+.link-wrapper {
+  display: flex;
+  justify-content: center;
+  a {
+    padding: 2rem 2.5rem;
+    text-transform: capitalize;
+    transition: 0.3s;
+  }
+  a:hover {
+    background-color: #3a83d1;
+  }
+  button:hover {
+    background-color: #3a83d1;
+  }
+  button {
+    transition: 0.3s;
+    cursor: pointer;
+    padding: 2rem 2.5rem;
+    background: inherit;
+    outline: none;
+    border: 0;
+    font-size: 1.6rem;
+    color: #fff;
+  }
+}

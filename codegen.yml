@@ -10,3 +10,5 @@ generates:
   ./graphql.schema.json:
     plugins:
       - "introspection"
+    config:
+      withRefetchFn: false

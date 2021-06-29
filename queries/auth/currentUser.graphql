@@ -1,0 +1,12 @@
+query currentUser {
+  currentUser {
+    id
+    username
+    profile{
+      salary
+      timeLeftToNextSalary
+      saving
+      bills
+    }
+  }
+}

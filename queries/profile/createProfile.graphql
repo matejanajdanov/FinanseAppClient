@@ -1,0 +1,24 @@
+mutation createProfile(
+  $salary: Float!
+  $timeLeftToNextSalary: String!
+  $saving: Float
+  $bills: Float
+) {
+  createProfile(
+    salary: $salary
+    timeLeftToNextSalary: $timeLeftToNextSalary
+    saving: $saving
+    bills: $bills
+  ) {
+    profile {
+      salary
+      timeLeftToNextSalary
+      saving
+      bills
+    }
+    errorFeilds {
+      field
+      message
+    }
+  }
+}

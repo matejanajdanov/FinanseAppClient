@@ -1,9 +1,11 @@
 import React, { FC } from "react";
 import styles from "../../../styles/components/utills/formComponents/ButtonComponent.module.scss";
 
+type ClassName = string & { className?: any };
+
 interface ButtonComponentInterface
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: "primary" | "secondary";
+  className?: "primary" | "secondary" | ClassName;
   text: string;
 }
 

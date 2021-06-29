@@ -22,6 +22,7 @@ const InputComponent: FC<InputComponent> = ({
   value,
   name,
   errorText,
+  type,
   ...props
 }) => {
   return (
@@ -35,6 +36,7 @@ const InputComponent: FC<InputComponent> = ({
       <input
         {...props}
         id={id}
+        type={type ? type : "text"}
         className={`${styles["form-input"]} ${
           styles[className ? className : ""]
         }`}
