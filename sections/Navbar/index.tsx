@@ -1,19 +1,20 @@
-import React from "react";
+import router from "next/router";
 import Link from "next/link";
-import Wrapper from "./utils/Wrapper";
-import styles from "../styles/components/Navbar.module.scss";
+import React from "react";
+
+import Wrapper from "components/AppWrapper";
+import styles from "./Navbar.module.scss";
 import {
   useCurrentUserQuery,
   useLogoutMutation,
   CurrentUserDocument,
-} from "../generated/generate";
+} from "../../generated/generate";
 
 const Navbar = () => {
-  const { error, data, loading } = useCurrentUserQuery();
+  const { data } = useCurrentUserQuery();
   const [logout] = useLogoutMutation();
-
   const renderLoggedUserNav = () => {
-    const onLogut = () => {
+    const onLogout = () => {
       logout({
         update: (cache, data) => {
           data.data?.logout &&
@@ -23,20 +24,24 @@ const Navbar = () => {
             });
         },
       });
+      router.push("/");
     };
-
     if (data?.currentUser) {
       return (
         <>
           {!data.currentUser.profile ? (
-            <Link href="/profile/createProfile">Create profile</Link>
+            <>
+              <Link href="/profile/createProfile">Create profile</Link>
+            </>
           ) : (
-            <Link href="/">{data.currentUser.username}</Link>
+            <>
+              <Link href="/">{data.currentUser.username}</Link>
+              <Link href="/profile/updateProfile">Update profile</Link>
+              <Link href="/profile/monthlyExpenses">Monthly expenses</Link>
+              <Link href="/profile/addExpense">Add expense</Link>
+            </>
           )}
-          <Link href="/profile/updateProfile">Update profile</Link>
-          <Link href="/profile/monthlyExpenses">Monthly expenses</Link>
-          <Link href="/profile/addExpense">Add expense</Link>
-          <button onClick={onLogut}>Logout</button>
+          <button onClick={onLogout}>Logout</button>
         </>
       );
     }

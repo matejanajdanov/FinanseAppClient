@@ -1,6 +1,7 @@
 import React, { FC, InputHTMLAttributes } from "react";
-import SmallError from "../SmallError";
-import styles from "../../../styles/components/utills/formComponents/InputComponent.module.scss";
+
+import SmallError from "components/AppSmallError";
+import styles from "./InputComponent.module.scss";
 
 interface InputComponent extends InputHTMLAttributes<HTMLInputElement> {
   handleInput: (e: React.FormEvent<HTMLInputElement>) => void;
@@ -28,7 +29,12 @@ const InputComponent: FC<InputComponent> = ({
   return (
     <>
       {label && (
-        <label htmlFor={id} className={styles["form-label"]}>
+        <label
+          htmlFor={id}
+          className={`${styles["form-label"]} ${
+            label.className ? label.className : ""
+          } `}
+        >
           {label.text}
         </label>
       )}
@@ -37,9 +43,7 @@ const InputComponent: FC<InputComponent> = ({
         {...props}
         id={id}
         type={type ? type : "text"}
-        className={`${styles["form-input"]} ${
-          styles[className ? className : ""]
-        }`}
+        className={`${styles["form-input"]} ${className ? className : ""}`}
         placeholder={placeholder}
         onChange={handleInput}
         value={value}

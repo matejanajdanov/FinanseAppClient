@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { useCreateProfileMutation } from "../../generated/generate";
-import Wrapper from "../../components/utils/Wrapper";
-import InputComponent from "../../components/utils/formComponents/InputComponent";
-import Button from "../../components/utils/formComponents/ButtonComponent";
+
+import { AppButton, AppInput, AppWrapper } from "components";
+import {
+  useCreateProfileMutation,
+  CurrentUserDocument,
+  CurrentUserQuery,
+} from "../../generated/generate";
 
 interface CreateProfileState {
   salary: string;
@@ -39,8 +42,10 @@ const createProfile = () => {
       [e.currentTarget.name]: e.currentTarget.value,
     });
   };
-  console.log(credentials);
-  const onFormSubmit = (e: React.FormEvent) => {
+
+  const onFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     let isFormValid = true;
     const stateErrors = {
       salary: "",
@@ -53,18 +58,58 @@ const createProfile = () => {
       stateErrors.salary = "Please enter your salary!";
       isFormValid = false;
     }
-
     if (credentials.timeLeftToNextSalary.length !== 10) {
-      stateErrors.salary = "Please enter valid date!!";
+      stateErrors.timeLeftToNextSalary = "Please enter valid date!!";
       isFormValid = false;
+    }
+    if (!isFormValid)
+      return setCredentials({ ...credentials, errors: stateErrors });
+
+    const { data } = await createProfile({
+      variables: {
+        salary: parseFloat(credentials.salary),
+        timeLeftToNextSalary: credentials.timeLeftToNextSalary,
+        bills: credentials.bills.length > 0 ? parseFloat(credentials.bills) : 0,
+        saving:
+          credentials.saving.length > 0 ? parseFloat(credentials.saving) : 0,
+      },
+      update: (cache, data) => {
+        if (!data.errors) {
+          const user = cache.readQuery<CurrentUserQuery>({
+            query: CurrentUserDocument,
+          });
+          if (user?.currentUser)
+            cache.writeQuery<CurrentUserQuery>({
+              query: CurrentUserDocument,
+              data: {
+                currentUser: {
+                  ...user.currentUser,
+                  profile: data.data?.createProfile.profile,
+                },
+              },
+            });
+        }
+      },
+    });
+
+    if (data?.createProfile.errorFeilds) {
+      data.createProfile.errorFeilds.map((error) => {
+        let field = error.field as
+          | "bills"
+          | "timeLeftToNextSalary"
+          | "saving"
+          | "salary";
+        stateErrors[field] = error.message;
+      });
+      return setCredentials({ ...credentials, errors: stateErrors });
     }
   };
 
   return (
-    <Wrapper className="wrapper-sm">
+    <AppWrapper className="wrapper-sm">
       <div className="auth-container mt-3">
         <form onSubmit={onFormSubmit}>
-          <InputComponent
+          <AppInput
             placeholder="Enter you salary here:"
             label={{ text: "Salary" }}
             id="create_profile_salary"
@@ -74,7 +119,7 @@ const createProfile = () => {
             value={credentials.salary}
             errorText={credentials.errors.salary}
           />
-          <InputComponent
+          <AppInput
             placeholder="Enter your bills here:"
             label={{ text: "Bills (optional)" }}
             id="create_profile_bills"
@@ -84,7 +129,7 @@ const createProfile = () => {
             value={credentials.bills}
             errorText={credentials.errors.bills}
           />
-          <InputComponent
+          <AppInput
             placeholder="Add your saving here:"
             label={{ text: "Total saving (optional)" }}
             id="create_profile_saving"
@@ -94,7 +139,7 @@ const createProfile = () => {
             value={credentials.saving}
             errorText={credentials.errors.saving}
           />
-          <InputComponent
+          <AppInput
             placeholder="Date to your next salary:"
             label={{ text: "Date to salary:" }}
             id="create_profile_date"
@@ -104,14 +149,14 @@ const createProfile = () => {
             value={credentials.timeLeftToNextSalary}
             errorText={credentials.errors.timeLeftToNextSalary}
           />
-          <Button
+          <AppButton
             className="secondary mt-2"
             text="Create profile"
             type="submit"
           />
         </form>
       </div>
-    </Wrapper>
+    </AppWrapper>
   );
 };
 

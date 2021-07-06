@@ -1,0 +1,24 @@
+mutation updateProfile(
+  $salary: Float
+  $timeLeftToNextSalary: String
+  $saving: Float
+  $bills: Float
+) {
+  updateProfile(
+    salary: $salary
+    timeLeftToNextSalary: $timeLeftToNextSalary
+    saving: $saving
+    bills: $bills
+  ) {
+    profile {
+      salary
+      timeLeftToNextSalary
+      saving
+      bills
+    }
+    errorFeilds {
+      field
+      message
+    }
+  }
+}

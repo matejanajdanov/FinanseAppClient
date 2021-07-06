@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import styles from "../../styles/components/utills/SmallError.module.scss";
+
+import styles from "./SmallError.module.scss";
 
 interface ResponseError {
   text: string;
@@ -7,7 +8,11 @@ interface ResponseError {
 }
 
 const ResponseError: FC<ResponseError> = ({ text, className }) => {
-  return <p className={styles["small-error"]}>{text}</p>;
+  return (
+    <p className={`${styles["small-error"]} ${className ? className : ""}`}>
+      {text}
+    </p>
+  );
 };
 
 export default ResponseError;

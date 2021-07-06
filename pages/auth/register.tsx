@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import Wrapper from "../../components/utils/Wrapper";
-import Button from "../../components/utils//formComponents/ButtonComponent";
-import InputComponent from "../../components/utils/formComponents/InputComponent";
+import { useRouter } from "next/router";
+
+import { AppWrapper, AppInput, AppButton } from "components";
 import {
   CurrentUserDocument,
   useRegisterMutation,
 } from "../../generated/generate";
-import { useRouter } from "next/router";
 
 interface RegisterState {
   username: string;
@@ -97,10 +96,10 @@ const register = () => {
     router.push("/profile/createProfile");
   };
   return (
-    <Wrapper className="wrapper-sm">
+    <AppWrapper className="wrapper-sm">
       <div className="auth-container mt-3">
         <form onSubmit={onFormSubmit}>
-          <InputComponent
+          <AppInput
             placeholder="Username"
             label={{ text: "Username" }}
             id="login_username"
@@ -109,7 +108,7 @@ const register = () => {
             value={credentials.username}
             errorText={credentials.errors.username}
           />
-          <InputComponent
+          <AppInput
             placeholder="Password"
             label={{ text: "Password" }}
             id="register_password"
@@ -119,7 +118,7 @@ const register = () => {
             value={credentials.password}
             errorText={credentials.errors.password}
           />
-          <InputComponent
+          <AppInput
             placeholder="Repeat password"
             label={{ text: "Repeat password" }}
             id="register_repeat_password"
@@ -129,10 +128,10 @@ const register = () => {
             value={credentials.repeatPassword}
             errorText={credentials.errors.repeatPassword}
           />
-          <Button className="secondary mt-2" text="Register" type="submit" />
+          <AppButton className="secondary mt-2" text="Register" type="submit" />
         </form>
       </div>
-    </Wrapper>
+    </AppWrapper>
   );
 };
 

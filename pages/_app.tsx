@@ -1,12 +1,8 @@
-import "../styles/globals.scss";
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import type { AppProps } from "next/app";
-import {
-  ApolloProvider,
-  ApolloClient,
-  InMemoryCache,
-  ApolloConsumer,
-} from "@apollo/client";
-import Navbar from "../components/Navbar";
+
+import Navbar from "../sections/Navbar";
+import "../styles/globals.scss";
 
 const client = new ApolloClient({
   uri: "http://localhost:5000/graphql",

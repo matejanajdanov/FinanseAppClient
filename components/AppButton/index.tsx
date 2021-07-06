@@ -1,5 +1,6 @@
 import React, { FC } from "react";
-import styles from "../../../styles/components/utills/formComponents/ButtonComponent.module.scss";
+
+import styles from "./ButtonComponent.module.scss";
 
 type ClassName = string & { className?: any };
 

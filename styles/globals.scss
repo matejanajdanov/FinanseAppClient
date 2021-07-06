@@ -1,3 +1,5 @@
+@import "vars.scss";
+
 html,
 body {
   padding: 0;
@@ -65,9 +67,9 @@ input[type="number"] {
   padding-top: 2rem;
 }
 
-$primary: #55a6ff;
-$secondary: #6c757d;
-$light: #000;
+.text-center {
+  text-align: center;
+}
 
 // COLORS
 .primary {
@@ -86,24 +88,8 @@ $light: #000;
 .bg-secondary {
   background-color: $secondary;
 }
-
-// wrapper
-.wrapper-lg {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 25px;
-}
-
-.wrapper-md {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 25px;
-}
-
-.wrapper-sm {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 0 25px;
+.bg-light {
+  background-color: $light;
 }
 
 // AUTH

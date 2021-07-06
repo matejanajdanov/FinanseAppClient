@@ -1,12 +1,11 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
+
+import { AppInput, AppButton, AppWrapper } from "components";
 import {
   useLoginMutation,
   CurrentUserDocument,
 } from "../../generated/generate";
-import InputComponent from "../../components/utils/formComponents/InputComponent";
-import ButtonComponent from "../../components/utils/formComponents/ButtonComponent";
-import Wrapper from "../../components/utils/Wrapper";
-import { useRouter } from "next/router";
 
 interface LoginState {
   username: string;
@@ -37,7 +36,6 @@ const login = () => {
     });
   };
 
-  console.log(credentials, "password");
   const onFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -84,10 +82,10 @@ const login = () => {
       : router.push("/");
   };
   return (
-    <Wrapper className="wrapper-sm">
+    <AppWrapper className="wrapper-sm">
       <div className="auth-container mt-3">
         <form onSubmit={onFormSubmit}>
-          <InputComponent
+          <AppInput
             placeholder="Username"
             label={{ text: "Username" }}
             id="login_username"
@@ -97,7 +95,7 @@ const login = () => {
             type="text"
             errorText={credentials.errors.username}
           />
-          <InputComponent
+          <AppInput
             placeholder="Password"
             label={{ text: "Password" }}
             id="login_password"
@@ -107,10 +105,10 @@ const login = () => {
             type="password"
             errorText={credentials.errors.password}
           />
-          <ButtonComponent text="Login" type="submit" className="secondary" />
+          <AppButton text="Login" type="submit" className="secondary" />
         </form>
       </div>
-    </Wrapper>
+    </AppWrapper>
   );
 };
 
