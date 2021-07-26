@@ -12,18 +12,48 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
+  DateTime: any;
 };
 
-export type ErrorField = {
-  __typename?: 'ErrorField';
-  field: Scalars['String'];
-  message: Scalars['String'];
-};
 
 export type ErrorFieldUser = {
   __typename?: 'ErrorFieldUser';
   field: Scalars['String'];
   message: Scalars['String'];
+};
+
+export type Expense = {
+  __typename?: 'Expense';
+  id: Scalars['ID'];
+  purpose: Scalars['String'];
+  moneySpent: Scalars['Float'];
+  date: Scalars['DateTime'];
+  profile: Profile;
+};
+
+export type ExpenseDeleteResponse = {
+  __typename?: 'ExpenseDeleteResponse';
+  isDeleted: Scalars['Boolean'];
+  message?: Maybe<Scalars['String']>;
+};
+
+export type ExpenseError = {
+  __typename?: 'ExpenseError';
+  message: Scalars['String'];
+  serrverError?: Maybe<Scalars['Boolean']>;
+};
+
+export type ExpenseOrMessage = {
+  __typename?: 'ExpenseOrMessage';
+  message?: Maybe<Scalars['String']>;
+  expense?: Maybe<Expense>;
+};
+
+export type ExpenseResponse = {
+  __typename?: 'ExpenseResponse';
+  expense?: Maybe<Expense>;
+  errorFields?: Maybe<Array<ExpenseError>>;
 };
 
 export type Mutation = {
@@ -33,6 +63,9 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   createProfile: ProfileResponse;
   updateProfile: ProfileResponse;
+  createExpense: ExpenseResponse;
+  deleteExpense: ExpenseDeleteResponse;
+  updateExpense: ExpenseOrMessage;
 };
 
 
@@ -52,8 +85,11 @@ export type MutationLoginArgs = {
 export type MutationCreateProfileArgs = {
   bills?: Maybe<Scalars['Float']>;
   saving?: Maybe<Scalars['Float']>;
+  currentBalance?: Maybe<Scalars['Float']>;
   timeLeftToNextSalary: Scalars['String'];
   salary: Scalars['Float'];
+  lastName: Scalars['String'];
+  firstName: Scalars['String'];
 };
 
 
@@ -62,26 +98,63 @@ export type MutationUpdateProfileArgs = {
   saving?: Maybe<Scalars['Float']>;
   timeLeftToNextSalary?: Maybe<Scalars['String']>;
   salary?: Maybe<Scalars['Float']>;
+  lastName?: Maybe<Scalars['String']>;
+  firstName?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationCreateExpenseArgs = {
+  date: Scalars['String'];
+  moneySpent: Scalars['String'];
+  purpose: Scalars['String'];
+};
+
+
+export type MutationDeleteExpenseArgs = {
+  id: Scalars['Float'];
+};
+
+
+export type MutationUpdateExpenseArgs = {
+  date?: Maybe<Scalars['String']>;
+  moneySpent?: Maybe<Scalars['String']>;
+  purpose?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
 };
 
 export type Profile = {
   __typename?: 'Profile';
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
   salary: Scalars['Float'];
   timeLeftToNextSalary: Scalars['String'];
   saving: Scalars['Float'];
   bills: Scalars['Float'];
 };
 
+export type ProfileError = {
+  __typename?: 'ProfileError';
+  field: Scalars['String'];
+  message: Scalars['String'];
+};
+
 export type ProfileResponse = {
   __typename?: 'ProfileResponse';
   profile?: Maybe<Profile>;
-  errorFeilds?: Maybe<Array<ErrorField>>;
+  errorFeilds?: Maybe<Array<ProfileError>>;
 };
 
 export type Query = {
   __typename?: 'Query';
   users: Array<User>;
   currentUser?: Maybe<User>;
+  getAllExpenses: Array<Expense>;
+  getOneExpense: ExpenseResponse;
+};
+
+
+export type QueryGetOneExpenseArgs = {
+  id: Scalars['Float'];
 };
 
 export type User = {
@@ -107,7 +180,7 @@ export type CurrentUserQuery = (
     & Pick<User, 'id' | 'username'>
     & { profile?: Maybe<(
       { __typename?: 'Profile' }
-      & Pick<Profile, 'salary' | 'timeLeftToNextSalary' | 'saving' | 'bills'>
+      & Pick<Profile, 'firstName' | 'lastName' | 'salary' | 'timeLeftToNextSalary' | 'saving' | 'bills'>
     )> }
   )> }
 );
@@ -127,7 +200,7 @@ export type LoginMutation = (
       & Pick<User, 'id' | 'username'>
       & { profile?: Maybe<(
         { __typename?: 'Profile' }
-        & Pick<Profile, 'salary' | 'timeLeftToNextSalary' | 'saving' | 'bills'>
+        & Pick<Profile, 'firstName' | 'lastName' | 'salary' | 'timeLeftToNextSalary' | 'saving' | 'bills'>
       )> }
     )>, errors?: Maybe<Array<(
       { __typename?: 'ErrorFieldUser' }
@@ -165,11 +238,39 @@ export type RegisterMutation = (
   )> }
 );
 
+export type CreateExpenseMutationVariables = Exact<{
+  purpose: Scalars['String'];
+  moneySpent: Scalars['String'];
+  date: Scalars['String'];
+}>;
+
+
+export type CreateExpenseMutation = (
+  { __typename?: 'Mutation' }
+  & { createExpense: (
+    { __typename?: 'ExpenseResponse' }
+    & { expense?: Maybe<(
+      { __typename?: 'Expense' }
+      & Pick<Expense, 'id' | 'purpose' | 'moneySpent' | 'date'>
+      & { profile: (
+        { __typename?: 'Profile' }
+        & Pick<Profile, 'firstName' | 'lastName' | 'salary'>
+      ) }
+    )>, errorFields?: Maybe<Array<(
+      { __typename?: 'ExpenseError' }
+      & Pick<ExpenseError, 'message'>
+    )>> }
+  ) }
+);
+
 export type CreateProfileMutationVariables = Exact<{
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
   salary: Scalars['Float'];
   timeLeftToNextSalary: Scalars['String'];
   saving?: Maybe<Scalars['Float']>;
   bills?: Maybe<Scalars['Float']>;
+  currentBalance?: Maybe<Scalars['Float']>;
 }>;
 
 
@@ -179,15 +280,17 @@ export type CreateProfileMutation = (
     { __typename?: 'ProfileResponse' }
     & { profile?: Maybe<(
       { __typename?: 'Profile' }
-      & Pick<Profile, 'salary' | 'timeLeftToNextSalary' | 'saving' | 'bills'>
+      & Pick<Profile, 'firstName' | 'lastName' | 'salary' | 'timeLeftToNextSalary' | 'saving' | 'bills'>
     )>, errorFeilds?: Maybe<Array<(
-      { __typename?: 'ErrorField' }
-      & Pick<ErrorField, 'field' | 'message'>
+      { __typename?: 'ProfileError' }
+      & Pick<ProfileError, 'field' | 'message'>
     )>> }
   ) }
 );
 
 export type UpdateProfileMutationVariables = Exact<{
+  firstName?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
   salary?: Maybe<Scalars['Float']>;
   timeLeftToNextSalary?: Maybe<Scalars['String']>;
   saving?: Maybe<Scalars['Float']>;
@@ -201,10 +304,10 @@ export type UpdateProfileMutation = (
     { __typename?: 'ProfileResponse' }
     & { profile?: Maybe<(
       { __typename?: 'Profile' }
-      & Pick<Profile, 'salary' | 'timeLeftToNextSalary' | 'saving' | 'bills'>
+      & Pick<Profile, 'firstName' | 'lastName' | 'salary' | 'timeLeftToNextSalary' | 'saving' | 'bills'>
     )>, errorFeilds?: Maybe<Array<(
-      { __typename?: 'ErrorField' }
-      & Pick<ErrorField, 'field' | 'message'>
+      { __typename?: 'ProfileError' }
+      & Pick<ProfileError, 'field' | 'message'>
     )>> }
   ) }
 );
@@ -216,6 +319,8 @@ export const CurrentUserDocument = gql`
     id
     username
     profile {
+      firstName
+      lastName
       salary
       timeLeftToNextSalary
       saving
@@ -258,6 +363,8 @@ export const LoginDocument = gql`
       id
       username
       profile {
+        firstName
+        lastName
         salary
         timeLeftToNextSalary
         saving
@@ -374,15 +481,68 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const CreateExpenseDocument = gql`
+    mutation createExpense($purpose: String!, $moneySpent: String!, $date: String!) {
+  createExpense(purpose: $purpose, moneySpent: $moneySpent, date: $date) {
+    expense {
+      id
+      purpose
+      moneySpent
+      date
+      profile {
+        firstName
+        lastName
+        salary
+      }
+    }
+    errorFields {
+      message
+    }
+  }
+}
+    `;
+export type CreateExpenseMutationFn = Apollo.MutationFunction<CreateExpenseMutation, CreateExpenseMutationVariables>;
+
+/**
+ * __useCreateExpenseMutation__
+ *
+ * To run a mutation, you first call `useCreateExpenseMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateExpenseMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createExpenseMutation, { data, loading, error }] = useCreateExpenseMutation({
+ *   variables: {
+ *      purpose: // value for 'purpose'
+ *      moneySpent: // value for 'moneySpent'
+ *      date: // value for 'date'
+ *   },
+ * });
+ */
+export function useCreateExpenseMutation(baseOptions?: Apollo.MutationHookOptions<CreateExpenseMutation, CreateExpenseMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateExpenseMutation, CreateExpenseMutationVariables>(CreateExpenseDocument, options);
+      }
+export type CreateExpenseMutationHookResult = ReturnType<typeof useCreateExpenseMutation>;
+export type CreateExpenseMutationResult = Apollo.MutationResult<CreateExpenseMutation>;
+export type CreateExpenseMutationOptions = Apollo.BaseMutationOptions<CreateExpenseMutation, CreateExpenseMutationVariables>;
 export const CreateProfileDocument = gql`
-    mutation createProfile($salary: Float!, $timeLeftToNextSalary: String!, $saving: Float, $bills: Float) {
+    mutation createProfile($firstName: String!, $lastName: String!, $salary: Float!, $timeLeftToNextSalary: String!, $saving: Float, $bills: Float, $currentBalance: Float) {
   createProfile(
+    firstName: $firstName
+    lastName: $lastName
     salary: $salary
     timeLeftToNextSalary: $timeLeftToNextSalary
     saving: $saving
     bills: $bills
+    currentBalance: $currentBalance
   ) {
     profile {
+      firstName
+      lastName
       salary
       timeLeftToNextSalary
       saving
@@ -410,10 +570,13 @@ export type CreateProfileMutationFn = Apollo.MutationFunction<CreateProfileMutat
  * @example
  * const [createProfileMutation, { data, loading, error }] = useCreateProfileMutation({
  *   variables: {
+ *      firstName: // value for 'firstName'
+ *      lastName: // value for 'lastName'
  *      salary: // value for 'salary'
  *      timeLeftToNextSalary: // value for 'timeLeftToNextSalary'
  *      saving: // value for 'saving'
  *      bills: // value for 'bills'
+ *      currentBalance: // value for 'currentBalance'
  *   },
  * });
  */
@@ -425,14 +588,18 @@ export type CreateProfileMutationHookResult = ReturnType<typeof useCreateProfile
 export type CreateProfileMutationResult = Apollo.MutationResult<CreateProfileMutation>;
 export type CreateProfileMutationOptions = Apollo.BaseMutationOptions<CreateProfileMutation, CreateProfileMutationVariables>;
 export const UpdateProfileDocument = gql`
-    mutation updateProfile($salary: Float, $timeLeftToNextSalary: String, $saving: Float, $bills: Float) {
+    mutation updateProfile($firstName: String, $lastName: String, $salary: Float, $timeLeftToNextSalary: String, $saving: Float, $bills: Float) {
   updateProfile(
+    firstName: $firstName
+    lastName: $lastName
     salary: $salary
     timeLeftToNextSalary: $timeLeftToNextSalary
     saving: $saving
     bills: $bills
   ) {
     profile {
+      firstName
+      lastName
       salary
       timeLeftToNextSalary
       saving
@@ -460,6 +627,8 @@ export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutat
  * @example
  * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
  *   variables: {
+ *      firstName: // value for 'firstName'
+ *      lastName: // value for 'lastName'
  *      salary: // value for 'salary'
  *      timeLeftToNextSalary: // value for 'timeLeftToNextSalary'
  *      saving: // value for 'saving'

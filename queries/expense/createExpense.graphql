@@ -1,0 +1,22 @@
+mutation createExpense(
+  $purpose: String!
+  $moneySpent: String!
+  $date: String!
+) {
+  createExpense(purpose: $purpose, moneySpent: $moneySpent, date: $date) {
+    expense {
+      id
+      purpose
+      moneySpent
+      date
+      profile {
+        firstName
+        lastName
+        salary
+      }
+    }
+    errorFields {
+      message
+    }
+  }
+}

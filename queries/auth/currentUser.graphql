@@ -2,7 +2,9 @@ query currentUser {
   currentUser {
     id
     username
-    profile{
+    profile {
+      firstName
+      lastName
       salary
       timeLeftToNextSalary
       saving

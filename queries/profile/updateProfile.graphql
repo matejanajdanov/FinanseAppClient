@@ -1,16 +1,22 @@
 mutation updateProfile(
+  $firstName: String
+  $lastName: String
   $salary: Float
   $timeLeftToNextSalary: String
   $saving: Float
   $bills: Float
 ) {
   updateProfile(
+    firstName: $firstName
+    lastName: $lastName
     salary: $salary
     timeLeftToNextSalary: $timeLeftToNextSalary
     saving: $saving
     bills: $bills
   ) {
     profile {
+      firstName
+      lastName
       salary
       timeLeftToNextSalary
       saving

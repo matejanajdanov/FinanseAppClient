@@ -1,16 +1,24 @@
 mutation createProfile(
+  $firstName: String!
+  $lastName: String!
   $salary: Float!
   $timeLeftToNextSalary: String!
   $saving: Float
   $bills: Float
+  $currentBalance: Float
 ) {
   createProfile(
+    firstName: $firstName
+    lastName: $lastName
     salary: $salary
     timeLeftToNextSalary: $timeLeftToNextSalary
     saving: $saving
     bills: $bills
+    currentBalance: $currentBalance
   ) {
     profile {
+      firstName
+      lastName
       salary
       timeLeftToNextSalary
       saving

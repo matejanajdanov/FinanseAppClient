@@ -4,6 +4,8 @@ mutation login($username: String!, $password: String!) {
       id
       username
       profile {
+        firstName
+        lastName
         salary
         timeLeftToNextSalary
         saving

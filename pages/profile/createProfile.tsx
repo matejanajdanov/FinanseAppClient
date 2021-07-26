@@ -8,11 +8,16 @@ import {
 } from "../../generated/generate";
 
 interface CreateProfileState {
+  firstName: string;
+  lastName: string;
+  currentBalance: string;
   salary: string;
   timeLeftToNextSalary: string;
   saving: string;
   bills: string;
   errors: {
+    firstName: string;
+    lastName: string;
     salary: string;
     bills: string;
     saving: string;
@@ -22,18 +27,22 @@ interface CreateProfileState {
 
 const createProfile = () => {
   const [credentials, setCredentials] = useState<CreateProfileState>({
+    firstName: "",
+    lastName: "",
+    currentBalance: "",
     salary: "",
     bills: "",
     saving: "",
     timeLeftToNextSalary: "",
     errors: {
+      firstName: "",
+      lastName: "",
       salary: "",
       bills: "",
       saving: "",
       timeLeftToNextSalary: "",
     },
   });
-
   const [createProfile] = useCreateProfileMutation();
 
   const handleCredentials = (e: React.FormEvent<HTMLInputElement>) => {
@@ -48,6 +57,8 @@ const createProfile = () => {
 
     let isFormValid = true;
     const stateErrors = {
+      firstName: "",
+      lastName: "",
       salary: "",
       bills: "",
       saving: "",
@@ -67,6 +78,9 @@ const createProfile = () => {
 
     const { data } = await createProfile({
       variables: {
+        firstName: credentials.firstName,
+        lastName: credentials.lastName,
+        currentBalance: parseFloat(credentials.currentBalance),
         salary: parseFloat(credentials.salary),
         timeLeftToNextSalary: credentials.timeLeftToNextSalary,
         bills: credentials.bills.length > 0 ? parseFloat(credentials.bills) : 0,
@@ -91,10 +105,11 @@ const createProfile = () => {
         }
       },
     });
-
     if (data?.createProfile.errorFeilds) {
       data.createProfile.errorFeilds.map((error) => {
         let field = error.field as
+          | "firstName"
+          | "lastName"
           | "bills"
           | "timeLeftToNextSalary"
           | "saving"
@@ -110,6 +125,26 @@ const createProfile = () => {
       <div className="auth-container mt-3">
         <form onSubmit={onFormSubmit}>
           <AppInput
+            placeholder="First name:"
+            label={{ text: "First name" }}
+            id="create_profile_first_name"
+            name="firstName"
+            type="text"
+            handleInput={handleCredentials}
+            value={credentials.firstName}
+            errorText={credentials.errors.salary}
+          />
+          <AppInput
+            placeholder="Last name:"
+            label={{ text: "Last name" }}
+            id="create_profile_last_name"
+            name="lastName"
+            type="text"
+            handleInput={handleCredentials}
+            value={credentials.lastName}
+            errorText={credentials.errors.salary}
+          />
+          <AppInput
             placeholder="Enter you salary here:"
             label={{ text: "Salary" }}
             id="create_profile_salary"
@@ -117,6 +152,16 @@ const createProfile = () => {
             type="number"
             handleInput={handleCredentials}
             value={credentials.salary}
+            errorText={credentials.errors.salary}
+          />
+          <AppInput
+            placeholder="Current balance:"
+            label={{ text: "Current balance (optional)" }}
+            id="create_profile_salary"
+            name="currentBalance"
+            type="number"
+            handleInput={handleCredentials}
+            value={credentials.currentBalance}
             errorText={credentials.errors.salary}
           />
           <AppInput
