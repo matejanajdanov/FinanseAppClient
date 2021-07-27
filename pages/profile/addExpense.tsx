@@ -48,7 +48,6 @@ const addExpense = () => {
         date: new Date().toString(),
       },
     });
-    console.log(data);
   };
   return (
     <AppWrapper className="wrapper-sm">

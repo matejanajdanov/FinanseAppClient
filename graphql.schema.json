@@ -1150,7 +1150,7 @@
             "deprecationReason": null
           },
           {
-            "name": "getMonthlyExpenses",
+            "name": "getExpenseByDate",
             "description": null,
             "args": [
               {
@@ -1161,7 +1161,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "DateTime",
+                    "name": "String",
                     "ofType": null
                   }
                 },

@@ -150,7 +150,7 @@ export type Query = {
   currentUser?: Maybe<User>;
   getAllExpenses: Array<Expense>;
   getOneExpense: ExpenseResponse;
-  getMonthlyExpenses: Array<Expense>;
+  getExpenseByDate: Array<Expense>;
 };
 
 
@@ -159,8 +159,8 @@ export type QueryGetOneExpenseArgs = {
 };
 
 
-export type QueryGetMonthlyExpensesArgs = {
-  date: Scalars['DateTime'];
+export type QueryGetExpenseByDateArgs = {
+  date: Scalars['String'];
 };
 
 export type User = {
