@@ -1,25 +1,28 @@
 import React, { FC } from "react";
 
-import styles from "./ButtonComponent.module.scss";
-
-type ClassName = string & { className?: any };
+import styles from "./index.module.scss";
 
 interface ButtonComponentInterface
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: "primary" | "secondary" | ClassName;
+  color?: "primary" | "secondary" | "light";
+  width?: "full" | "small";
   text: string;
 }
 
 const ButtonComponent: FC<ButtonComponentInterface> = ({
-  text,
+  color = "primary",
+  width = "full",
   className,
+  text,
   ...props
 }) => {
   return (
     <>
       <button
         {...props}
-        className={`${styles["button"]} ${className ? className : ""}`}
+        className={`${styles["button"]} ${styles[width]} ${styles[color]} ${
+          className && className
+        }`}
       >
         {text}
       </button>

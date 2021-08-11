@@ -1,0 +1,23 @@
+@import "styles/vars.scss";
+.button {
+  outline: none;
+  padding: 1rem 1.5rem;
+  border: none;
+  font-size: 1.4rem;
+  border-radius: 1.2rem;
+  font-family: $poppins;
+  letter-spacing: 0.15rem;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.full {
+  width: 100%;
+}
+.primary {
+  background-color: $primary;
+  color: $light;
+}
+.primary:hover {
+  background-color: $dark_buttons;
+  color: $light;
+}

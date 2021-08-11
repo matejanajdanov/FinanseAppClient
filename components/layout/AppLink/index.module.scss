@@ -1,0 +1,65 @@
+@import "styles/vars.scss";
+
+.button-link {
+  padding: 2rem 3.5rem;
+  letter-spacing: 1px;
+  transition: 0.3s;
+  font-size: 1.7rem;
+}
+.small-link {
+  transition: 0.3s;
+  font-size: 1.5rem;
+  display: inline-block;
+  background-color: transparent !important;
+  i {
+    margin-right: 0.5rem;
+    font-size: 1.3rem;
+  }
+}
+.small {
+  width: auto;
+}
+.full {
+  width: 100%;
+}
+.left {
+  text-align: left;
+}
+.center {
+  text-align: center;
+}
+.right {
+  text-align: right;
+}
+// COLORS
+.primary {
+  color: $primary;
+}
+.primary:hover {
+  color: $light;
+}
+.light {
+  color: $light;
+}
+.light:hover {
+  color: $primary;
+}
+.dark {
+  color: $dark_primary;
+}
+.dark:hover {
+  color: $light;
+}
+
+.bg-primary {
+  background-color: $primary;
+}
+.bg-primary:hover {
+  background-color: $dark_buttons;
+}
+.bg-light {
+  background-color: $light;
+}
+.bg-dark {
+  background-color: $dark_buttons;
+}

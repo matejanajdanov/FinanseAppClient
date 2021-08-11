@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { AppButton, AppWrapper, AppInput, AppSmallError } from "components";
 import { useUpdateProfileMutation } from "../../generated/generate";
+import { useRedirectIfNotLoged } from "hooks/redirect";
 
 interface UpdateProfileState {
   firstName: string;
@@ -57,7 +58,7 @@ const updateProfile = () => {
     });
   };
   return (
-    <AppWrapper className="wrapper-sm">
+    <AppWrapper width="wrapper-sm">
       <div className="auth-container mt-3">
         <form onSubmit={onFormSubmit}>
           <AppInput

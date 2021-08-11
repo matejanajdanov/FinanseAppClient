@@ -16,6 +16,18 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['ID'];
+  categoryName: Scalars['String'];
+};
+
+export type CategoryResponse = {
+  __typename?: 'CategoryResponse';
+  category?: Maybe<Category>;
+  error?: Maybe<Scalars['String']>;
+};
+
 
 export type ErrorFieldUser = {
   __typename?: 'ErrorFieldUser';
@@ -26,7 +38,8 @@ export type ErrorFieldUser = {
 export type Expense = {
   __typename?: 'Expense';
   id: Scalars['ID'];
-  purpose: Scalars['String'];
+  purpose?: Maybe<Scalars['String']>;
+  category?: Maybe<Category>;
   moneySpent: Scalars['Float'];
   date: Scalars['DateTime'];
   profile: Profile;
@@ -56,29 +69,62 @@ export type ExpenseResponse = {
   errorFields?: Maybe<Array<ExpenseError>>;
 };
 
+export type ExpensesByCategory = {
+  __typename?: 'ExpensesByCategory';
+  categoryName: Scalars['String'];
+  totalExpense: Scalars['Float'];
+};
+
+export type ExpensesByMonth = {
+  __typename?: 'ExpensesByMonth';
+  date: Scalars['Float'];
+  expenses: Array<Expense>;
+};
+
+export type Income = {
+  __typename?: 'Income';
+  id: Scalars['ID'];
+  purpose?: Maybe<Scalars['String']>;
+  ammountOfMoney: Scalars['Float'];
+  date: Scalars['DateTime'];
+};
+
+export type IncomeResponse = {
+  __typename?: 'IncomeResponse';
+  message?: Maybe<Scalars['String']>;
+  income?: Maybe<Income>;
+};
+
+export type MainExpensesCategories = {
+  __typename?: 'MainExpensesCategories';
+  category: Scalars['String'];
+  totalAmount: Scalars['Float'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  register?: Maybe<UserResponse>;
-  login: UserResponse;
-  logout: Scalars['Boolean'];
+  createCategory: CategoryResponse;
+  deleteCategory: Scalars['Boolean'];
   createProfile: ProfileResponse;
   updateProfile: ProfileResponse;
   createExpense: ExpenseResponse;
   deleteExpense: ExpenseDeleteResponse;
   updateExpense: ExpenseOrMessage;
+  createIncome: IncomeResponse;
+  deleteIncome: Scalars['Boolean'];
+  register?: Maybe<UserResponse>;
+  login: UserResponse;
+  logout: Scalars['Boolean'];
 };
 
 
-export type MutationRegisterArgs = {
-  confirmPassword: Scalars['String'];
-  password: Scalars['String'];
-  username: Scalars['String'];
+export type MutationCreateCategoryArgs = {
+  category: Scalars['String'];
 };
 
 
-export type MutationLoginArgs = {
-  password: Scalars['String'];
-  username: Scalars['String'];
+export type MutationDeleteCategoryArgs = {
+  id: Scalars['Float'];
 };
 
 
@@ -104,9 +150,10 @@ export type MutationUpdateProfileArgs = {
 
 
 export type MutationCreateExpenseArgs = {
+  categoryId?: Maybe<Scalars['Float']>;
+  purpose?: Maybe<Scalars['String']>;
   date: Scalars['String'];
   moneySpent: Scalars['String'];
-  purpose: Scalars['String'];
 };
 
 
@@ -116,10 +163,36 @@ export type MutationDeleteExpenseArgs = {
 
 
 export type MutationUpdateExpenseArgs = {
+  categoryId?: Maybe<Scalars['Float']>;
   date?: Maybe<Scalars['String']>;
   moneySpent?: Maybe<Scalars['String']>;
   purpose?: Maybe<Scalars['String']>;
   id: Scalars['Float'];
+};
+
+
+export type MutationCreateIncomeArgs = {
+  date?: Maybe<Scalars['DateTime']>;
+  purpose: Scalars['String'];
+  ammountOfMoney: Scalars['Float'];
+};
+
+
+export type MutationDeleteIncomeArgs = {
+  id: Scalars['Float'];
+};
+
+
+export type MutationRegisterArgs = {
+  confirmPassword: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
+};
+
+
+export type MutationLoginArgs = {
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type Profile = {
@@ -127,7 +200,7 @@ export type Profile = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   salary: Scalars['Float'];
-  timeLeftToNextSalary: Scalars['String'];
+  timeLeftToNextSalary: Scalars['DateTime'];
   saving: Scalars['Float'];
   bills: Scalars['Float'];
 };
@@ -138,6 +211,14 @@ export type ProfileError = {
   message: Scalars['String'];
 };
 
+export type ProfileMainExpenses = {
+  __typename?: 'ProfileMainExpenses';
+  categories: MainExpensesCategories;
+  todayLeft: Scalars['Float'];
+  monthlyLeft: Scalars['Float'];
+  spentThisMonth: Scalars['Float'];
+};
+
 export type ProfileResponse = {
   __typename?: 'ProfileResponse';
   profile?: Maybe<Profile>;
@@ -146,11 +227,23 @@ export type ProfileResponse = {
 
 export type Query = {
   __typename?: 'Query';
-  users: Array<User>;
-  currentUser?: Maybe<User>;
+  getCategories: Array<Category>;
+  getExpensesFromCategory: TotalExpensesFromCategories;
+  getMainExpenses: ProfileMainExpenses;
   getAllExpenses: Array<Expense>;
   getOneExpense: ExpenseResponse;
   getExpenseByDate: Array<Expense>;
+  getExpenseByMonth: Array<ExpensesByMonth>;
+  getIncomes: Array<Income>;
+  getIncomesByMonth: Array<Income>;
+  users: Array<User>;
+  currentUser?: Maybe<User>;
+};
+
+
+export type QueryGetExpensesFromCategoryArgs = {
+  month: Scalars['Float'];
+  year: Scalars['Float'];
 };
 
 
@@ -163,11 +256,30 @@ export type QueryGetExpenseByDateArgs = {
   date: Scalars['String'];
 };
 
+
+export type QueryGetExpenseByMonthArgs = {
+  month: Scalars['Float'];
+  year: Scalars['Float'];
+};
+
+
+export type QueryGetIncomesByMonthArgs = {
+  month: Scalars['Float'];
+  year: Scalars['Float'];
+};
+
+export type TotalExpensesFromCategories = {
+  __typename?: 'TotalExpensesFromCategories';
+  expensesByCategory?: Maybe<Array<ExpensesByCategory>>;
+  message?: Maybe<Scalars['String']>;
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['ID'];
   username: Scalars['String'];
   profile?: Maybe<Profile>;
+  category?: Maybe<Array<Category>>;
 };
 
 export type UserResponse = {
@@ -267,6 +379,28 @@ export type CreateExpenseMutation = (
       & Pick<ExpenseError, 'message'>
     )>> }
   ) }
+);
+
+export type GetExpenseByMonthQueryVariables = Exact<{
+  year: Scalars['Float'];
+  month: Scalars['Float'];
+}>;
+
+
+export type GetExpenseByMonthQuery = (
+  { __typename?: 'Query' }
+  & { getExpenseByMonth: Array<(
+    { __typename?: 'ExpensesByMonth' }
+    & Pick<ExpensesByMonth, 'date'>
+    & { expenses: Array<(
+      { __typename?: 'Expense' }
+      & Pick<Expense, 'id' | 'purpose' | 'moneySpent' | 'date'>
+      & { category?: Maybe<(
+        { __typename?: 'Category' }
+        & Pick<Category, 'id' | 'categoryName'>
+      )> }
+    )> }
+  )> }
 );
 
 export type CreateProfileMutationVariables = Exact<{
@@ -535,6 +669,52 @@ export function useCreateExpenseMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateExpenseMutationHookResult = ReturnType<typeof useCreateExpenseMutation>;
 export type CreateExpenseMutationResult = Apollo.MutationResult<CreateExpenseMutation>;
 export type CreateExpenseMutationOptions = Apollo.BaseMutationOptions<CreateExpenseMutation, CreateExpenseMutationVariables>;
+export const GetExpenseByMonthDocument = gql`
+    query getExpenseByMonth($year: Float!, $month: Float!) {
+  getExpenseByMonth(month: $month, year: $year) {
+    date
+    expenses {
+      id
+      purpose
+      moneySpent
+      date
+      category {
+        id
+        categoryName
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetExpenseByMonthQuery__
+ *
+ * To run a query within a React component, call `useGetExpenseByMonthQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetExpenseByMonthQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetExpenseByMonthQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *      month: // value for 'month'
+ *   },
+ * });
+ */
+export function useGetExpenseByMonthQuery(baseOptions: Apollo.QueryHookOptions<GetExpenseByMonthQuery, GetExpenseByMonthQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetExpenseByMonthQuery, GetExpenseByMonthQueryVariables>(GetExpenseByMonthDocument, options);
+      }
+export function useGetExpenseByMonthLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetExpenseByMonthQuery, GetExpenseByMonthQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetExpenseByMonthQuery, GetExpenseByMonthQueryVariables>(GetExpenseByMonthDocument, options);
+        }
+export type GetExpenseByMonthQueryHookResult = ReturnType<typeof useGetExpenseByMonthQuery>;
+export type GetExpenseByMonthLazyQueryHookResult = ReturnType<typeof useGetExpenseByMonthLazyQuery>;
+export type GetExpenseByMonthQueryResult = Apollo.QueryResult<GetExpenseByMonthQuery, GetExpenseByMonthQueryVariables>;
 export const CreateProfileDocument = gql`
     mutation createProfile($firstName: String!, $lastName: String!, $salary: Float!, $timeLeftToNextSalary: String!, $saving: Float, $bills: Float, $currentBalance: Float) {
   createProfile(

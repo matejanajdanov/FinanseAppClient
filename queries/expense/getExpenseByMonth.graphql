@@ -1,0 +1,15 @@
+query getExpenseByMonth($year: Float!, $month: Float!) {
+  getExpenseByMonth(month: $month, year: $year) {
+    date
+    expenses {
+      id
+      purpose
+      moneySpent
+      date
+      category {
+        id
+        categoryName
+      }
+    }
+  }
+}

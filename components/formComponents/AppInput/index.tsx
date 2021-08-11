@@ -1,7 +1,7 @@
 import React, { FC, InputHTMLAttributes } from "react";
 
-import SmallError from "components/AppSmallError";
-import styles from "./InputComponent.module.scss";
+import SmallError from "components/layout/AppSmallError";
+import styles from "./index.module.scss";
 
 interface InputComponent extends InputHTMLAttributes<HTMLInputElement> {
   handleInput: (e: React.FormEvent<HTMLInputElement>) => void;
@@ -16,13 +16,13 @@ interface InputComponent extends InputHTMLAttributes<HTMLInputElement> {
 
 const InputComponent: FC<InputComponent> = ({
   handleInput,
-  className,
   placeholder,
+  className,
+  errorText,
   id,
   label,
   value,
   name,
-  errorText,
   type,
   ...props
 }) => {

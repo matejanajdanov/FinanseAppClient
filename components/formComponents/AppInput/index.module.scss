@@ -1,0 +1,23 @@
+@import "styles/vars.scss";
+
+.form-input {
+  background-color: #222227;
+  border: 1px solid transparent;
+  border-radius: 1.2rem;
+  color: $light;
+  font-size: 1.6rem;
+  width: 100%;
+  padding: 1rem 2rem;
+  font-family: $poppins;
+  outline: none;
+}
+.form-input:focus {
+  transition: 0.3s;
+  border: 1px solid $primary;
+  border-radius: 1.2rem;
+}
+.form-label {
+  color: $light;
+  display: block;
+  margin-bottom: 0.5rem;
+}

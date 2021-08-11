@@ -1,18 +1,19 @@
 import router from "next/router";
-import Link from "next/link";
 import React from "react";
 
-import Wrapper from "components/AppWrapper";
-import styles from "./Navbar.module.scss";
+import { AppLink, AppWrapper } from "components";
+import styles from "./index.module.scss";
 import {
   useCurrentUserQuery,
-  useLogoutMutation,
   CurrentUserDocument,
+  useLogoutMutation,
 } from "../../generated/generate";
 
 const Navbar = () => {
   const { data } = useCurrentUserQuery();
+
   const [logout] = useLogoutMutation();
+
   const renderLoggedUserNav = () => {
     const onLogout = () => {
       logout({
@@ -31,34 +32,71 @@ const Navbar = () => {
         <>
           {!data.currentUser.profile ? (
             <>
-              <Link href="/profile/createProfile">Create profile</Link>
+              <AppLink
+                type="small-link"
+                color="light"
+                href="/profile/createProfile"
+              >
+                Create profile
+              </AppLink>
+              <AppLink
+                type="small-link"
+                color="light"
+                bgColor="bg-dark"
+                href="/"
+                linkClick={onLogout}
+              >
+                Logout
+              </AppLink>
             </>
           ) : (
             <>
-              <Link href="/">{data.currentUser.username}</Link>
-              <Link href="/profile/updateProfile">Update profile</Link>
-              <Link href="/profile/monthlyExpenses">Monthly expenses</Link>
-              <Link href="/profile/addExpense">Add expense</Link>
+              <AppLink
+                type="small-link"
+                color="light"
+                bgColor="bg-dark"
+                href="/profile"
+              >
+                {data.currentUser.profile.firstName}'s stats
+              </AppLink>
+              <AppLink
+                type="small-link"
+                color="light"
+                bgColor="bg-dark"
+                href="/profile/expenses"
+              >
+                Expenses
+              </AppLink>
+              <AppLink
+                type="small-link"
+                color="light"
+                bgColor="bg-dark"
+                href="/profile/incomes"
+              >
+                Incomes
+              </AppLink>
+              <AppLink
+                type="small-link"
+                color="light"
+                bgColor="bg-dark"
+                href="/"
+                linkClick={onLogout}
+              >
+                Logout
+              </AppLink>
             </>
           )}
-          <button onClick={onLogout}>Logout</button>
         </>
       );
     }
-    return (
-      <>
-        <Link href="/auth/register">Register</Link>
-        <Link href="/auth/login">Login</Link>
-      </>
-    );
   };
 
   return (
-    <Wrapper className="wrapper-md">
+    <AppWrapper width="wrapper-md">
       <nav className={styles["nav"] + " bg-primary"}>
         <div className={styles["link-wrapper"]}>{renderLoggedUserNav()}</div>
       </nav>
-    </Wrapper>
+    </AppWrapper>
   );
 };
 

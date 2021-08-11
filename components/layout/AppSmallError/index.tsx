@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import styles from "./SmallError.module.scss";
+import styles from "./index.module.scss";
 
 interface ResponseError {
   text: string;

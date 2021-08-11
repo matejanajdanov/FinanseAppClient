@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 
-import { AppInput, AppButton, AppWrapper } from "components";
 import {
-  useLoginMutation,
+  AppFormCard,
+  AppWrapper,
+  AppButton,
+  AppInput,
+  AppLink,
+} from "components";
+
+import {
   CurrentUserDocument,
+  useLoginMutation,
 } from "../../generated/generate";
+import { useRedirectIfLoged } from "hooks/redirect";
 
 interface LoginState {
   username: string;
@@ -19,6 +27,8 @@ interface LoginState {
 const login = () => {
   const router = useRouter();
 
+  useRedirectIfLoged("/profile/createProfile", "/profile");
+
   const [credentials, setCredentials] = useState<LoginState>({
     username: "",
     password: "",
@@ -27,6 +37,7 @@ const login = () => {
       password: "",
     },
   });
+
   const [login] = useLoginMutation();
 
   const handleCredentials = (e: React.FormEvent<HTMLInputElement>) => {
@@ -77,36 +88,54 @@ const login = () => {
         errors: stateErrors,
       });
     }
-    !data?.login.user?.profile
-      ? router.push("/profile/createProfile")
-      : router.push("/");
   };
   return (
-    <AppWrapper className="wrapper-sm">
-      <div className="auth-container mt-3">
-        <form onSubmit={onFormSubmit}>
-          <AppInput
-            placeholder="Username"
-            label={{ text: "Username" }}
-            id="login_username"
-            name="username"
-            handleInput={handleCredentials}
-            value={credentials.username}
-            type="text"
-            errorText={credentials.errors.username}
-          />
-          <AppInput
-            placeholder="Password"
-            label={{ text: "Password" }}
-            id="login_password"
-            name="password"
-            handleInput={handleCredentials}
-            value={credentials.password}
-            type="password"
-            errorText={credentials.errors.password}
-          />
-          <AppButton text="Login" type="submit" className="secondary" />
-        </form>
+    <AppWrapper width="wrapper-sm" textAlign="center">
+      <div className="auth-container mt-20">
+        <div className="text-left">
+          <AppLink
+            href="/"
+            type="small-link"
+            textAlign="left"
+            color="primary"
+            bgColor="bg-primary"
+            className="ml-3 mb-1"
+          >
+            <i className="fas fa-chevron-left"></i>
+            Back
+          </AppLink>
+        </div>
+        <AppFormCard>
+          <h1 className="mb-7 text-light">Login and start saving!</h1>
+          <form onSubmit={onFormSubmit}>
+            <AppInput
+              placeholder="Username"
+              id="login_username"
+              name="username"
+              handleInput={handleCredentials}
+              value={credentials.username}
+              type="text"
+              errorText={credentials.errors.username}
+              className="mb-3"
+            />
+            <AppInput
+              placeholder="Password"
+              id="login_password"
+              name="password"
+              handleInput={handleCredentials}
+              value={credentials.password}
+              type="password"
+              errorText={credentials.errors.password}
+              className="mb-3"
+            />
+            <AppButton
+              text="Login"
+              type="submit"
+              width="full"
+              color="primary"
+            />
+          </form>
+        </AppFormCard>
       </div>
     </AppWrapper>
   );

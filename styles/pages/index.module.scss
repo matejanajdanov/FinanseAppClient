@@ -1,0 +1,12 @@
+@import "../vars.scss";
+.index-page {
+  * {
+    color: $light;
+    border-radius: 1rem;
+  }
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10rem;
+  }
+}

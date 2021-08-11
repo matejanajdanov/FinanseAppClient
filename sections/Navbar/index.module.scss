@@ -1,12 +1,11 @@
 .nav {
-  border-radius: 20px;
+  border-bottom: 1px solid #fff;
 }
 .link-wrapper {
   display: flex;
   justify-content: center;
   a {
     padding: 2rem 2.5rem;
-    text-transform: capitalize;
     transition: 0.3s;
   }
   a:hover {

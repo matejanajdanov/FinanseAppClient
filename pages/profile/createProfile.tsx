@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 
-import { AppButton, AppInput, AppWrapper } from "components";
+import { AppButton, AppFormCard, AppInput, AppWrapper } from "components";
 import {
   useCreateProfileMutation,
   CurrentUserDocument,
   CurrentUserQuery,
+  useCurrentUserQuery,
 } from "../../generated/generate";
+import router, { useRouter } from "next/router";
+import Navbar from "sections/Navbar";
 
 interface CreateProfileState {
   firstName: string;
@@ -26,6 +29,13 @@ interface CreateProfileState {
 }
 
 const createProfile = () => {
+  const router = useRouter();
+  const { data } = useCurrentUserQuery();
+
+  if (data?.currentUser?.profile) {
+    router.push("/");
+  }
+
   const [credentials, setCredentials] = useState<CreateProfileState>({
     firstName: "",
     lastName: "",
@@ -57,12 +67,12 @@ const createProfile = () => {
 
     let isFormValid = true;
     const stateErrors = {
+      timeLeftToNextSalary: "",
       firstName: "",
       lastName: "",
       salary: "",
       bills: "",
       saving: "",
-      timeLeftToNextSalary: "",
     };
 
     if (credentials.salary.length < 2) {
@@ -118,90 +128,97 @@ const createProfile = () => {
       });
       return setCredentials({ ...credentials, errors: stateErrors });
     }
+    router.push("/");
   };
 
   return (
-    <AppWrapper className="wrapper-sm">
-      <div className="auth-container mt-3">
-        <form onSubmit={onFormSubmit}>
-          <AppInput
-            placeholder="First name:"
-            label={{ text: "First name" }}
-            id="create_profile_first_name"
-            name="firstName"
-            type="text"
-            handleInput={handleCredentials}
-            value={credentials.firstName}
-            errorText={credentials.errors.salary}
-          />
-          <AppInput
-            placeholder="Last name:"
-            label={{ text: "Last name" }}
-            id="create_profile_last_name"
-            name="lastName"
-            type="text"
-            handleInput={handleCredentials}
-            value={credentials.lastName}
-            errorText={credentials.errors.salary}
-          />
-          <AppInput
-            placeholder="Enter you salary here:"
-            label={{ text: "Salary" }}
-            id="create_profile_salary"
-            name="salary"
-            type="number"
-            handleInput={handleCredentials}
-            value={credentials.salary}
-            errorText={credentials.errors.salary}
-          />
-          <AppInput
-            placeholder="Current balance:"
-            label={{ text: "Current balance (optional)" }}
-            id="create_profile_salary"
-            name="currentBalance"
-            type="number"
-            handleInput={handleCredentials}
-            value={credentials.currentBalance}
-            errorText={credentials.errors.salary}
-          />
-          <AppInput
-            placeholder="Enter your bills here:"
-            label={{ text: "Bills (optional)" }}
-            id="create_profile_bills"
-            type="number"
-            name="bills"
-            handleInput={handleCredentials}
-            value={credentials.bills}
-            errorText={credentials.errors.bills}
-          />
-          <AppInput
-            placeholder="Add your saving here:"
-            label={{ text: "Total saving (optional)" }}
-            id="create_profile_saving"
-            type="number"
-            name="saving"
-            handleInput={handleCredentials}
-            value={credentials.saving}
-            errorText={credentials.errors.saving}
-          />
-          <AppInput
-            placeholder="Date to your next salary:"
-            label={{ text: "Date to salary:" }}
-            id="create_profile_date"
-            type="date"
-            name="timeLeftToNextSalary"
-            handleInput={handleCredentials}
-            value={credentials.timeLeftToNextSalary}
-            errorText={credentials.errors.timeLeftToNextSalary}
-          />
-          <AppButton
-            className="secondary mt-2"
-            text="Create profile"
-            type="submit"
-          />
-        </form>
-      </div>
-    </AppWrapper>
+    <>
+      <Navbar />
+      <AppWrapper width="wrapper-sm">
+        <div className="auth-container mt-10 mb-5">
+          <AppFormCard>
+            <h1 className="text-light text-center mb-5">Create profile</h1>
+            <form onSubmit={onFormSubmit}>
+              <AppInput
+                placeholder="First name:"
+                id="create_profile_first_name"
+                name="firstName"
+                type="text"
+                handleInput={handleCredentials}
+                value={credentials.firstName}
+                errorText={credentials.errors.salary}
+                className="mb-3"
+              />
+              <AppInput
+                placeholder="Last name:"
+                id="create_profile_last_name"
+                name="lastName"
+                type="text"
+                handleInput={handleCredentials}
+                value={credentials.lastName}
+                errorText={credentials.errors.salary}
+                className="mb-3"
+              />
+              <AppInput
+                placeholder="Enter you salary here:"
+                id="create_profile_salary"
+                name="salary"
+                type="number"
+                handleInput={handleCredentials}
+                value={credentials.salary}
+                errorText={credentials.errors.salary}
+                className="mb-3"
+              />
+              <AppInput
+                placeholder="(optional) Current balance:"
+                id="create_profile_salary"
+                name="currentBalance"
+                type="number"
+                handleInput={handleCredentials}
+                value={credentials.currentBalance}
+                errorText={credentials.errors.salary}
+                className="mb-3"
+              />
+              <AppInput
+                placeholder="(optional) Enter your bills here:"
+                id="create_profile_bills"
+                type="number"
+                name="bills"
+                handleInput={handleCredentials}
+                value={credentials.bills}
+                errorText={credentials.errors.bills}
+                className="mb-3"
+              />
+              <AppInput
+                placeholder="(optional) Add your saving here:"
+                id="create_profile_saving"
+                type="number"
+                name="saving"
+                handleInput={handleCredentials}
+                value={credentials.saving}
+                errorText={credentials.errors.saving}
+                className="mb-3"
+              />
+              <AppInput
+                placeholder="Date to your next salary:"
+                id="create_profile_date"
+                type="date"
+                name="timeLeftToNextSalary"
+                handleInput={handleCredentials}
+                value={credentials.timeLeftToNextSalary}
+                errorText={credentials.errors.timeLeftToNextSalary}
+                className="mb-3"
+              />
+              <AppButton
+                className="secondary mt-2"
+                text="Create profile"
+                type="submit"
+              />
+            </form>
+          </AppFormCard>
+        </div>
+      </AppWrapper>
+    </>
   );
 };
 
