@@ -6,6 +6,14 @@ query getExpenseByMonth($year: Float!, $month: Float!) {
       purpose
       moneySpent
       date
+      profile {
+        firstName
+        lastName
+        salary
+        timeLeftToNextSalary
+        saving
+        bills
+      }
       category {
         id
         categoryName

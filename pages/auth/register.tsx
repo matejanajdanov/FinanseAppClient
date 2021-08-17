@@ -28,7 +28,7 @@ interface RegisterState {
 const register = () => {
   const router = useRouter();
 
-  useRedirectIfLoged("/profile");
+  useRedirectIfLoged("/profile/createProfile", "/profile");
 
   const [credentials, setCredentials] = useState<RegisterState>({
     username: "",

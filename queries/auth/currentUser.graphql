@@ -2,6 +2,10 @@ query currentUser {
   currentUser {
     id
     username
+    category {
+      id
+      categoryName
+    }
     profile {
       firstName
       lastName

@@ -6,15 +6,19 @@ interface WrapperInterface {
   children: ReactNode;
   width?: "wrapper-lg" | "wrapper-md" | "wrapper-sm";
   textAlign?: "center" | "left" | "right";
+  className?: string;
 }
 
 const Wrapper: FC<WrapperInterface> = ({
   width = "wrapper-md",
   textAlign = "left",
+  className = "",
   children,
 }) => {
   return (
-    <div className={`${styles[width]} ${styles[textAlign]}`}>{children}</div>
+    <div className={`${styles[width]} ${styles[textAlign]} ${className}`}>
+      {children}
+    </div>
   );
 };
 

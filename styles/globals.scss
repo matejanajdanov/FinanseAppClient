@@ -109,3 +109,22 @@ input[type="number"] {
 .d-inline-block {
   display: inline-block;
 }
+.mx-0 {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.px-0 {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.d-flex {
+  display: flex;
+}
+.center-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.w-100 {
+  width: 100%;
+}

@@ -5,10 +5,10 @@ import { useCreateExpenseMutation } from "../../generated/generate";
 import { checkIfEmpty } from "hooks/validation";
 
 interface AddExpenseState {
-  purpose: string;
   moneySpent: string;
-  date: string;
+  purpose: string;
   errors: string;
+  date: string;
 }
 
 const addExpense = () => {

@@ -1,0 +1,21 @@
+@import "styles/vars.scss";
+
+.accordions-container {
+  display: flex;
+  gap: 2rem;
+  > * {
+    width: 100%;
+  }
+}
+.exp-heading {
+  font-size: 2.5rem;
+}
+.divider {
+  border-bottom: 1px solid $primary;
+  margin: 2rem 0;
+}
+@media only screen and (max-width: 600px) {
+  .exp-heading {
+    text-align: center;
+  }
+}

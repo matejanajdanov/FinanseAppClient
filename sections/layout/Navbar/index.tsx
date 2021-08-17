@@ -7,7 +7,7 @@ import {
   useCurrentUserQuery,
   CurrentUserDocument,
   useLogoutMutation,
-} from "../../generated/generate";
+} from "generated/generate";
 
 const Navbar = () => {
   const { data } = useCurrentUserQuery();

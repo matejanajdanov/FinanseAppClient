@@ -3,7 +3,7 @@ import React from "react";
 
 import styles from "styles/pages/index.module.scss";
 import { AppLink, AppWrapper } from "components";
-import Navbar from "sections/Navbar";
+import { Navbar } from "sections";
 
 const renderBody = () => {
   const { data } = useCurrentUserQuery();

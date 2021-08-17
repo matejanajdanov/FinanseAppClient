@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
 import { useGetExpenseByMonthQuery } from "generated/generate";
-import { useRedirectIfNotLoged } from "hooks/redirect";
+import Expense from "sections/layout/Expense";
 import { AppWrapper } from "components";
-import Expense from "sections/Expense";
 import { monthNames } from "types";
 
 const monthlyExpenses = () => {
@@ -22,7 +21,7 @@ const monthlyExpenses = () => {
               <Expense
                 month={monthNames[month]}
                 date={expense.date}
-                expenses={expense.expenses}
+                // expenses={expense.expenses}
               />
             );
           })}

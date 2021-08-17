@@ -296,7 +296,10 @@ export type CurrentUserQuery = (
   & { currentUser?: Maybe<(
     { __typename?: 'User' }
     & Pick<User, 'id' | 'username'>
-    & { profile?: Maybe<(
+    & { category?: Maybe<Array<(
+      { __typename?: 'Category' }
+      & Pick<Category, 'id' | 'categoryName'>
+    )>>, profile?: Maybe<(
       { __typename?: 'Profile' }
       & Pick<Profile, 'firstName' | 'lastName' | 'salary' | 'timeLeftToNextSalary' | 'saving' | 'bills'>
     )> }
@@ -356,6 +359,23 @@ export type RegisterMutation = (
   )> }
 );
 
+export type CreateCategoryMutationVariables = Exact<{
+  category: Scalars['String'];
+}>;
+
+
+export type CreateCategoryMutation = (
+  { __typename?: 'Mutation' }
+  & { createCategory: (
+    { __typename?: 'CategoryResponse' }
+    & Pick<CategoryResponse, 'error'>
+    & { category?: Maybe<(
+      { __typename?: 'Category' }
+      & Pick<Category, 'id' | 'categoryName'>
+    )> }
+  ) }
+);
+
 export type CreateExpenseMutationVariables = Exact<{
   purpose: Scalars['String'];
   moneySpent: Scalars['String'];
@@ -395,7 +415,10 @@ export type GetExpenseByMonthQuery = (
     & { expenses: Array<(
       { __typename?: 'Expense' }
       & Pick<Expense, 'id' | 'purpose' | 'moneySpent' | 'date'>
-      & { category?: Maybe<(
+      & { profile: (
+        { __typename?: 'Profile' }
+        & Pick<Profile, 'firstName' | 'lastName' | 'salary' | 'timeLeftToNextSalary' | 'saving' | 'bills'>
+      ), category?: Maybe<(
         { __typename?: 'Category' }
         & Pick<Category, 'id' | 'categoryName'>
       )> }
@@ -458,6 +481,10 @@ export const CurrentUserDocument = gql`
   currentUser {
     id
     username
+    category {
+      id
+      categoryName
+    }
     profile {
       firstName
       lastName
@@ -621,6 +648,43 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const CreateCategoryDocument = gql`
+    mutation createCategory($category: String!) {
+  createCategory(category: $category) {
+    category {
+      id
+      categoryName
+    }
+    error
+  }
+}
+    `;
+export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMutation, CreateCategoryMutationVariables>;
+
+/**
+ * __useCreateCategoryMutation__
+ *
+ * To run a mutation, you first call `useCreateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCategoryMutation, { data, loading, error }] = useCreateCategoryMutation({
+ *   variables: {
+ *      category: // value for 'category'
+ *   },
+ * });
+ */
+export function useCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateCategoryMutation, CreateCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateCategoryMutation, CreateCategoryMutationVariables>(CreateCategoryDocument, options);
+      }
+export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
+export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
+export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
 export const CreateExpenseDocument = gql`
     mutation createExpense($purpose: String!, $moneySpent: String!, $date: String!) {
   createExpense(purpose: $purpose, moneySpent: $moneySpent, date: $date) {
@@ -678,6 +742,14 @@ export const GetExpenseByMonthDocument = gql`
       purpose
       moneySpent
       date
+      profile {
+        firstName
+        lastName
+        salary
+        timeLeftToNextSalary
+        saving
+        bills
+      }
       category {
         id
         categoryName

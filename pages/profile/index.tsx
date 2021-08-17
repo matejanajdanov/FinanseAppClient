@@ -1,7 +1,7 @@
 import Wrapper from "components/layout/AppWrapper";
 import React, { useState } from "react";
 
-import Navbar from "sections/Navbar";
+import { Navbar } from "sections";
 
 const index = () => {
   return (

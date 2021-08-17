@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-
-import { AppButton, AppFormCard, AppInput, AppWrapper } from "components";
+import { useRouter } from "next/router";
 import {
   useCreateProfileMutation,
   CurrentUserDocument,
-  CurrentUserQuery,
   useCurrentUserQuery,
+  CurrentUserQuery,
 } from "../../generated/generate";
-import router, { useRouter } from "next/router";
-import Navbar from "sections/Navbar";
+
+import { AppButton, AppFormCard, AppInput, AppWrapper } from "components";
+import { Navbar } from "sections/";
 
 interface CreateProfileState {
   firstName: string;
