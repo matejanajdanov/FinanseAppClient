@@ -1,14 +1,18 @@
-import React, { useState } from "react";
-import { useCreateCategoryMutation } from "generated/generate";
+import React, { useState } from 'react';
+import {
+  CurrentUserDocument,
+  CurrentUserQuery,
+  useCreateCategoryMutation,
+} from 'generated/generate';
 
-import { checkIfEmpty } from "hooks/validation";
+import { checkIfEmpty } from 'hooks/validation';
 import {
   AppSmallError,
   AppFormCard,
   AppWrapper,
   AppButton,
   AppInput,
-} from "components";
+} from 'components';
 
 interface AddExpenseState {
   categoryName: string;
@@ -18,8 +22,8 @@ interface AddExpenseState {
 const CreateCategory = () => {
   const [createCategory] = useCreateCategoryMutation();
   const [credentials, setCredentials] = useState<AddExpenseState>({
-    categoryName: "",
-    errors: "",
+    categoryName: '',
+    errors: '',
   });
 
   const handleCredentials = (
@@ -36,7 +40,7 @@ const CreateCategory = () => {
     if (!checkIfEmpty([credentials.categoryName])) {
       return setCredentials({
         ...credentials,
-        errors: "Please enter category name",
+        errors: 'Please enter category name',
       });
     }
     await createCategory({
@@ -44,56 +48,59 @@ const CreateCategory = () => {
         category: credentials.categoryName,
       },
       update: (cache, data) => {
-        // if (!data.errors) {
-        //   const user = cache.readQuery<CurrentUserQuery>({
-        //     query: CurrentUserDocument,
-        //   });
-        //   if (user?.currentUser && data.data?.createCategory.category) {
-        //     console.log(data.data.createCategory.category);
-        //     cache.writeQuery<CurrentUserQuery>({
-        //       query: CurrentUserDocument,
-        //       data: {
-        //         currentUser: {
-        //           ...user.currentUser,
-        //           profile: null,
-        //         },
-        //       },
-        //     });
-        //   }
-        // }
-        // if (!data.errors) {
-        //   const user = cache.readQuery<CurrentUserQuery>({
-        //     query: CurrentUserDocument,
-        //   });
-        //   let newCategories = user?.currentUser?.category;
-        // }
+        if (!data.errors) {
+          const user = cache.readQuery<CurrentUserQuery>({
+            query: CurrentUserDocument,
+          });
+          if (user?.currentUser && data.data?.createCategory.category) {
+            console.log(data.data.createCategory.category, 'RESPONSE');
+            console.log(user.currentUser.category, 'USER');
+            if (user.currentUser.category)
+              cache.writeQuery<CurrentUserQuery>({
+                query: CurrentUserDocument,
+                data: {
+                  currentUser: {
+                    ...user.currentUser,
+                    category: [
+                      ...user.currentUser.category,
+                      data.data.createCategory.category,
+                    ],
+                  },
+                },
+              });
+          }
+        }
+        if (!data.errors) {
+          const user = cache.readQuery<CurrentUserQuery>({
+            query: CurrentUserDocument,
+          });
+          let newCategories = user?.currentUser?.category;
+        }
       },
     });
   };
 
   return (
-    <AppWrapper width="wrapper-sm">
-      <div className="auth-container">
-        <AppFormCard className="mb-3">
-          <form onSubmit={onFormSubmit}>
-            <AppInput
-              placeholder="Create category:"
-              name="categoryName"
-              type="text"
-              handleInput={handleCredentials}
-              value={credentials.categoryName}
-              className="mb-1"
-            />
-            <AppSmallError text={credentials.errors} />
-            <AppButton
-              className="secondary"
-              text="Create category"
-              type="submit"
-            />
-          </form>
-        </AppFormCard>
-      </div>
-    </AppWrapper>
+    <div className='auth-container'>
+      <AppFormCard className='mb-3'>
+        <form onSubmit={onFormSubmit}>
+          <AppInput
+            placeholder='Create category:'
+            name='categoryName'
+            type='text'
+            handleInput={handleCredentials}
+            value={credentials.categoryName}
+            className='mb-1'
+          />
+          <AppSmallError text={credentials.errors} />
+          <AppButton
+            className='secondary'
+            text='Create category'
+            type='submit'
+          />
+        </form>
+      </AppFormCard>
+    </div>
   );
 };
 

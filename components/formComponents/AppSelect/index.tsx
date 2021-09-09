@@ -1,6 +1,6 @@
-import React, { SelectHTMLAttributes } from "react";
+import React, { SelectHTMLAttributes } from 'react';
 
-import styles from "./index.module.scss";
+import styles from './index.module.scss';
 
 interface AppSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   handleInput?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -9,7 +9,7 @@ interface AppSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 }
 
 const AppSelect: React.FC<AppSelectProps> = ({
-  className = "",
+  className = '',
   handleInput,
   options,
   ...props
@@ -17,7 +17,7 @@ const AppSelect: React.FC<AppSelectProps> = ({
   return (
     <select
       {...props}
-      className={`${styles["form-select"]} ${className}`}
+      className={`${styles['form-select']} ${className}`}
       onChange={handleInput}
     >
       {options.map((option) => {

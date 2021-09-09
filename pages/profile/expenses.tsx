@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useGetExpenseByMonthQuery } from "generated/generate";
+/* eslint-disable */
+import { useGetExpenseByMonthQuery } from 'generated/generate';
+import React, { useState } from 'react';
 
-import { AppAccordion, AppFormCard, AppSelect, AppWrapper } from "components";
-import { CreateExpense, Navbar, Expense, CreateCategory } from "sections";
-import styles from "styles/pages/profile/expenses.module.scss";
-import { monthNames } from "types";
+import { AppAccordion, AppFormCard, AppWrapper, AppSelect } from 'components';
+import { CreateExpense, Navbar, Expense, CreateCategory } from 'sections';
+import styles from 'styles/pages/profile/expenses.module.scss';
+import { monthNames } from 'types';
 
-const monthlyExpenses = () => {
+const expenses = () => {
   const [date, setDate] = useState({
     year: new Date().getFullYear(),
     month: new Date().getMonth(),
   });
-  console.log(date);
-
-  // useEffect(() => {
-  //   setDate({
-  //     year: new Date().getFullYear(),
-  //     month: new Date().getMonth(),
-  //   });
-  // }, []);
 
   const handleCredentials = (e: React.FormEvent<HTMLSelectElement>) => {
     setDate({
@@ -39,7 +32,7 @@ const monthlyExpenses = () => {
         <div>
           {data.getExpenseByMonth.map((expense) => {
             return (
-              <AppFormCard className="mb-3">
+              <AppFormCard className='mb-3'>
                 <Expense
                   date={expense.date}
                   month={month}
@@ -54,6 +47,7 @@ const monthlyExpenses = () => {
       return <div>There is no expenses!</div>;
     }
   };
+
   const monthOptions: { text: string; value: string; key: string }[] =
     monthNames.map((month, index) => {
       return { key: month, value: index.toString(), text: month };
@@ -73,32 +67,33 @@ const monthlyExpenses = () => {
   return (
     <>
       <Navbar />
-      <AppWrapper className="mt-5">
-        <div className={styles["accordions-container"]}>
-          <AppAccordion text="Create expense" buttonClass="dark">
+      <AppWrapper className='mt-5'>
+        <div className={styles['accordions-container']}>
+          <AppAccordion text='Create expense' buttonClass='dark'>
             <CreateExpense />
           </AppAccordion>
-          <AppAccordion text="Create category">
+          <AppAccordion text='Create category'>
             <CreateCategory />
           </AppAccordion>
         </div>
-        <div className={`${styles["divider"]}`}></div>
-        <div className="center-element mb-5">
-          <h2 className={`${styles["exp-heading"]} text-light mr-3`}>
+        <div className={`${styles['divider']}`}></div>
+        <div className='center-element mb-5'>
+          <h2 className={`${styles['exp-heading']} text-light mr-3`}>
             Expenses:
           </h2>
-          <div className="center-element w-100 ">
+          <div className='center-element w-100 '>
             <AppSelect
-              className="w-100 mr-3"
+              className='w-100 mr-3'
               options={monthOptions}
+              defaultValue={month}
               handleInput={handleCredentials}
-              name="month"
+              name='month'
             />
             <AppSelect
-              className="w-100"
+              className='w-100'
               options={yearsOptions}
               handleInput={handleCredentials}
-              name="year"
+              name='year'
             />
           </div>
         </div>
@@ -108,4 +103,4 @@ const monthlyExpenses = () => {
   );
 };
 
-export default monthlyExpenses;
+export default expenses;

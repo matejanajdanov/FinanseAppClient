@@ -1,25 +1,25 @@
-import React, { FC, useLayoutEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from 'react';
 
-import styles from "./index.module.scss";
+import styles from './index.module.scss';
 
 interface AccordionProps {
-  text: string;
   accordionClass?: string;
   buttonClass?: string;
+  text: string;
 }
 
 const Accordion: FC<AccordionProps> = ({
-  text,
-  accordionClass = "",
+  accordionClass = '',
   buttonClass,
   children,
+  text,
 }) => {
   const [isActive, setIsActive] = useState(false);
   const [accordionHeight, setAccordionHeight] = useState(0);
 
   const accordionRef = useRef<HTMLDivElement>(null);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     accordionRef.current?.scrollHeight &&
       setAccordionHeight(accordionRef.current?.scrollHeight);
   }, [accordionRef.current?.scrollHeight]);
@@ -28,15 +28,15 @@ const Accordion: FC<AccordionProps> = ({
     <div>
       <button
         onClick={(e) => setIsActive(!isActive)}
-        className={`${styles["accordion"]} ${buttonClass}`}
+        className={`${styles['accordion']} ${buttonClass}`}
       >
         {text}
       </button>
       <div
         ref={accordionRef}
         style={isActive ? { maxHeight: accordionHeight } : { maxHeight: 0 }}
-        className={`${styles["panel"]} ${
-          isActive ? styles["panel-active"] : ""
+        className={`${styles['panel']} ${
+          isActive ? styles['panel-active'] : ''
         } ${accordionClass}`}
       >
         {children}

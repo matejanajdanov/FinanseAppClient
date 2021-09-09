@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useRouter } from "next/router";
+import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 
 import {
   AppFormCard,
@@ -7,12 +7,12 @@ import {
   AppButton,
   AppInput,
   AppLink,
-} from "components";
+} from 'components';
 import {
   CurrentUserDocument,
   useRegisterMutation,
-} from "../../generated/generate";
-import { useRedirectIfLoged } from "hooks/redirect";
+} from '../../generated/generate';
+import { useRedirectIfLoged } from 'hooks/redirect';
 
 interface RegisterState {
   username: string;
@@ -28,16 +28,16 @@ interface RegisterState {
 const register = () => {
   const router = useRouter();
 
-  useRedirectIfLoged("/profile/createProfile", "/profile");
+  useRedirectIfLoged('/profile/createProfile', '/profile');
 
   const [credentials, setCredentials] = useState<RegisterState>({
-    username: "",
-    password: "",
-    repeatPassword: "",
+    username: '',
+    password: '',
+    repeatPassword: '',
     errors: {
-      username: "",
-      password: "",
-      repeatPassword: "",
+      username: '',
+      password: '',
+      repeatPassword: '',
     },
   });
 
@@ -55,17 +55,17 @@ const register = () => {
     let isFormValid = true;
 
     const stateErrors = {
-      username: "",
-      password: "",
-      repeatPassword: "",
+      username: '',
+      password: '',
+      repeatPassword: '',
     };
 
     if (credentials.username.length < 6) {
-      stateErrors.username = "Username should have more than 6 chars!";
+      stateErrors.username = 'Username should have more than 6 chars!';
       isFormValid = false;
     }
     if (credentials.password.length < 6) {
-      stateErrors.password = "Password should have more than 6 chars!";
+      stateErrors.password = 'Password should have more than 6 chars!';
       isFormValid = false;
     }
     if (credentials.repeatPassword !== credentials.password) {
@@ -88,12 +88,12 @@ const register = () => {
     if (data?.register?.errors) {
       const { errors } = data.register;
       const stateErrors = {
-        username: "",
-        password: "",
-        repeatPassword: "",
+        username: '',
+        password: '',
+        repeatPassword: '',
       };
       errors.forEach((error) => {
-        const err = error.field as "username" | "password" | "repeatPassword";
+        const err = error.field as 'username' | 'password' | 'repeatPassword';
         stateErrors[err] = error.message;
       });
       return setCredentials({
@@ -101,61 +101,59 @@ const register = () => {
         errors: stateErrors,
       });
     }
-    router.push("/profile/createProfile");
+    router.push('/profile/createProfile');
   };
   return (
-    <AppWrapper width="wrapper-sm" textAlign="center">
-      <div className="auth-container mt-20">
-        <div className="text-left">
+    <AppWrapper width='wrapper-sm' textAlign='center'>
+      <div className='auth-container mt-20'>
+        <div className='text-left'>
           <AppLink
-            href="/"
-            type="small-link"
-            textAlign="left"
-            color="primary"
-            bgColor="bg-primary"
-            className="ml-3 mb-1"
+            href='/'
+            type='small-link'
+            textAlign='left'
+            color='primary'
+            bgColor='bg-primary'
+            className='ml-3 mb-1'
           >
-            <i className="fas fa-chevron-left"></i>
+            <i className='fas fa-chevron-left'></i>
             Back
           </AppLink>
         </div>
         <AppFormCard>
-          <h1 className="mb-7 text-light">Register and start saving!</h1>
+          <h1 className='mb-7 text-light'>Register and start saving!</h1>
           <form onSubmit={onFormSubmit}>
             <AppInput
-              placeholder="Username"
-              id="login_username"
-              name="username"
+              placeholder='Username'
+              id='login_username'
+              name='username'
               handleInput={handleCredentials}
               value={credentials.username}
               errorText={credentials.errors.username}
-              className="mb-3"
+              className='mb-3'
             />
             <AppInput
-              placeholder="Password"
-              id="register_password"
-              type="password"
-              name="password"
+              placeholder='Password'
+              id='register_password'
+              type='password'
+              name='password'
               handleInput={handleCredentials}
               value={credentials.password}
               errorText={credentials.errors.password}
-              className="mb-3"
+              className='mb-3'
             />
             <AppInput
-              placeholder="Repeat password"
-              id="register_repeat_password"
-              type="password"
-              name="repeatPassword"
+              placeholder='Repeat password'
+              id='register_repeat_password'
+              type='password'
+              name='repeatPassword'
               handleInput={handleCredentials}
               value={credentials.repeatPassword}
               errorText={credentials.errors.repeatPassword}
-              className="mb-3"
+              className='mb-3'
             />
-            <AppButton
-              className="secondary mt-2"
-              text="Register"
-              type="submit"
-            />
+            <AppButton className='secondary mt-2' type='submit'>
+              Register
+            </AppButton>
           </form>
         </AppFormCard>
       </div>

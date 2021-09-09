@@ -1,30 +1,29 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import styles from "./index.module.scss";
+import styles from './index.module.scss';
 
 interface ButtonComponentInterface
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: "primary" | "secondary" | "light";
-  width?: "full" | "small";
-  text: string;
+  color?: 'primary' | 'secondary' | 'light';
+  width?: 'full' | 'small';
 }
 
 const ButtonComponent: FC<ButtonComponentInterface> = ({
-  color = "primary",
-  width = "full",
+  color = 'primary',
+  width = 'full',
   className,
-  text,
+  children,
   ...props
 }) => {
   return (
     <>
       <button
         {...props}
-        className={`${styles["button"]} ${styles[width]} ${styles[color]} ${
+        className={`${styles['button']} ${styles[width]} ${styles[color]} ${
           className && className
         }`}
       >
-        {text}
+        {children}
       </button>
     </>
   );

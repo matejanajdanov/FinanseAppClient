@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   useCreateExpenseMutation,
   useCurrentUserQuery,
-} from "generated/generate";
+} from 'generated/generate';
 
-import { checkIfEmpty } from "hooks/validation";
+import { checkIfEmpty } from 'hooks/validation';
 import {
   AppSmallError,
   AppFormCard,
@@ -12,7 +12,7 @@ import {
   AppButton,
   AppSelect,
   AppInput,
-} from "components";
+} from 'components';
 
 interface AddExpenseState {
   moneySpent: string;
@@ -25,10 +25,10 @@ const CreateExpense = () => {
   const { data } = useCurrentUserQuery();
 
   const [credentials, setCredentials] = useState<AddExpenseState>({
-    moneySpent: "",
-    note: "",
-    errors: "",
-    date: "",
+    moneySpent: '',
+    note: '',
+    errors: '',
+    date: '',
   });
   const [createExpense] = useCreateExpenseMutation();
 
@@ -59,9 +59,9 @@ const CreateExpense = () => {
       );
     } else {
       return (
-        <p className="text-center text-light">
-          <i className="fas fa-info-circle mr-1"></i>
-          Create category if you'd like to track expenses by categories.
+        <p className='text-center text-light'>
+          <i className='fas fa-info-circle mr-1'></i>
+          Create category if you&apos;d like to track expenses by categories.
         </p>
       );
     }
@@ -74,7 +74,7 @@ const CreateExpense = () => {
     ) {
       return setCredentials({
         ...credentials,
-        errors: "Please enter all forms",
+        errors: 'Please enter all forms',
       });
     }
     const { data } = await createExpense({
@@ -87,39 +87,37 @@ const CreateExpense = () => {
   };
 
   return (
-    <AppWrapper width="wrapper-sm">
-      <div className="auth-container">
-        <AppFormCard className="mb-3">
-          <form onSubmit={onFormSubmit}>
-            <AppInput
-              placeholder="Note:"
-              id="create_profile_note"
-              name="note"
-              type="text"
-              handleInput={handleCredentials}
-              value={credentials.note}
-              className="mb-3"
-            />
-            <AppInput
-              placeholder="Money spent:"
-              id="create_profile_money_spent"
-              name="moneySpent"
-              type="number"
-              handleInput={handleCredentials}
-              value={credentials.moneySpent}
-              className="mb-3"
-            />
-            {renderCategories()}
-            <AppSmallError text={credentials.errors} />
-            <AppButton
-              className="secondary"
-              text="Create expense"
-              type="submit"
-            />
-          </form>
-        </AppFormCard>
-      </div>
-    </AppWrapper>
+    <div className='auth-container'>
+      <AppFormCard className='mb-3'>
+        <form onSubmit={onFormSubmit}>
+          <AppInput
+            placeholder='Note:'
+            id='create_profile_note'
+            name='note'
+            type='text'
+            handleInput={handleCredentials}
+            value={credentials.note}
+            className='mb-3'
+          />
+          <AppInput
+            placeholder='Money spent:'
+            id='create_profile_money_spent'
+            name='moneySpent'
+            type='number'
+            handleInput={handleCredentials}
+            value={credentials.moneySpent}
+            className='mb-3'
+          />
+          {renderCategories()}
+          <AppSmallError text={credentials.errors} />
+          <AppButton
+            className='mt-1 secondary'
+            text='Create expense'
+            type='submit'
+          />
+        </form>
+      </AppFormCard>
+    </div>
   );
 };
 

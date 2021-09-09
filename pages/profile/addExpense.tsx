@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { AppButton, AppWrapper, AppInput, AppSmallError } from "components";
-import { useCreateExpenseMutation } from "../../generated/generate";
-import { checkIfEmpty } from "hooks/validation";
+import { AppButton, AppWrapper, AppInput, AppSmallError } from 'components';
+import { useCreateExpenseMutation } from '../../generated/generate';
+import { checkIfEmpty } from 'hooks/validation';
 
 interface AddExpenseState {
   moneySpent: string;
@@ -13,10 +13,10 @@ interface AddExpenseState {
 
 const addExpense = () => {
   const [credentials, setCredentials] = useState<AddExpenseState>({
-    purpose: "",
-    moneySpent: "",
-    date: "",
-    errors: "",
+    purpose: '',
+    moneySpent: '',
+    date: '',
+    errors: '',
   });
   const [createExpense] = useCreateExpenseMutation();
 
@@ -38,7 +38,7 @@ const addExpense = () => {
     ) {
       return setCredentials({
         ...credentials,
-        errors: "Please enter all forms",
+        errors: 'Please enter all forms',
       });
     }
     const { data } = await createExpense({
@@ -50,29 +50,31 @@ const addExpense = () => {
     });
   };
   return (
-    <AppWrapper width="wrapper-sm">
-      <div className="auth-container mt-3">
+    <AppWrapper width='wrapper-sm'>
+      <div className='auth-container mt-3'>
         <form onSubmit={onFormSubmit}>
           <AppInput
-            placeholder="Purpose:"
-            label={{ text: "Purpose" }}
-            id="create_profile_purpose"
-            name="purpose"
-            type="text"
+            placeholder='Purpose:'
+            label={{ text: 'Purpose' }}
+            id='create_profile_purpose'
+            name='purpose'
+            type='text'
             handleInput={handleCredentials}
             value={credentials.purpose}
           />
           <AppInput
-            placeholder="Money spent:"
-            label={{ text: "Money spent" }}
-            id="create_profile_money_spent"
-            name="moneySpent"
-            type="number"
+            placeholder='Money spent:'
+            label={{ text: 'Money spent' }}
+            id='create_profile_money_spent'
+            name='moneySpent'
+            type='number'
             handleInput={handleCredentials}
             value={credentials.moneySpent}
           />
           <AppSmallError text={credentials.errors} />
-          <AppButton className="secondary" text="Add expense" type="submit" />
+          <AppButton className='secondary' type='submit'>
+            Add expense
+          </AppButton>
         </form>
       </div>
     </AppWrapper>

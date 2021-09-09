@@ -1,25 +1,25 @@
-import Link, { LinkProps } from "next/link";
-import React, { FC } from "react";
+import Link, { LinkProps } from 'next/link';
+import React, { FC } from 'react';
 
-import styles from "./index.module.scss";
+import styles from './index.module.scss';
 
 interface AppLinkProps extends LinkProps {
-  bgColor?: "bg-primary" | "bg-light" | "bg-dark";
-  textAlign?: "left" | "center" | "right";
-  color?: "primary" | "light" | "dark";
-  type?: "button-link" | "small-link";
-  width?: "full" | "small";
+  bgColor?: 'bg-primary' | 'bg-light' | 'bg-dark';
+  textAlign?: 'left' | 'center' | 'right';
+  color?: 'primary' | 'light' | 'dark';
+  type?: 'button-link' | 'small-link';
   linkClick?: (e: any) => void;
+  width?: 'full' | 'small';
   className?: string;
 }
 
 const AppLink: FC<AppLinkProps> = ({
-  type = "button-link",
-  textAlign = "left",
-  color = "primary",
-  width = "small",
-  bgColor = "bg-dark",
-  className = "",
+  type = 'button-link',
+  textAlign = 'left',
+  color = 'primary',
+  width = 'small',
+  bgColor = 'bg-dark',
+  className = '',
   linkClick,
   children,
   ...props
