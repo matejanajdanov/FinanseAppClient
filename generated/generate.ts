@@ -380,6 +380,7 @@ export type CreateExpenseMutationVariables = Exact<{
   purpose: Scalars['String'];
   moneySpent: Scalars['String'];
   date: Scalars['String'];
+  categoryId?: Maybe<Scalars['Float']>;
 }>;
 
 
@@ -398,6 +399,19 @@ export type CreateExpenseMutation = (
       { __typename?: 'ExpenseError' }
       & Pick<ExpenseError, 'message'>
     )>> }
+  ) }
+);
+
+export type DeleteExpenseMutationVariables = Exact<{
+  id: Scalars['Float'];
+}>;
+
+
+export type DeleteExpenseMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteExpense: (
+    { __typename?: 'ExpenseDeleteResponse' }
+    & Pick<ExpenseDeleteResponse, 'isDeleted' | 'message'>
   ) }
 );
 
@@ -686,8 +700,13 @@ export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCatego
 export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
 export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
 export const CreateExpenseDocument = gql`
-    mutation createExpense($purpose: String!, $moneySpent: String!, $date: String!) {
-  createExpense(purpose: $purpose, moneySpent: $moneySpent, date: $date) {
+    mutation createExpense($purpose: String!, $moneySpent: String!, $date: String!, $categoryId: Float) {
+  createExpense(
+    purpose: $purpose
+    moneySpent: $moneySpent
+    date: $date
+    categoryId: $categoryId
+  ) {
     expense {
       id
       purpose
@@ -723,6 +742,7 @@ export type CreateExpenseMutationFn = Apollo.MutationFunction<CreateExpenseMutat
  *      purpose: // value for 'purpose'
  *      moneySpent: // value for 'moneySpent'
  *      date: // value for 'date'
+ *      categoryId: // value for 'categoryId'
  *   },
  * });
  */
@@ -733,6 +753,40 @@ export function useCreateExpenseMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateExpenseMutationHookResult = ReturnType<typeof useCreateExpenseMutation>;
 export type CreateExpenseMutationResult = Apollo.MutationResult<CreateExpenseMutation>;
 export type CreateExpenseMutationOptions = Apollo.BaseMutationOptions<CreateExpenseMutation, CreateExpenseMutationVariables>;
+export const DeleteExpenseDocument = gql`
+    mutation deleteExpense($id: Float!) {
+  deleteExpense(id: $id) {
+    isDeleted
+    message
+  }
+}
+    `;
+export type DeleteExpenseMutationFn = Apollo.MutationFunction<DeleteExpenseMutation, DeleteExpenseMutationVariables>;
+
+/**
+ * __useDeleteExpenseMutation__
+ *
+ * To run a mutation, you first call `useDeleteExpenseMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteExpenseMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteExpenseMutation, { data, loading, error }] = useDeleteExpenseMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteExpenseMutation(baseOptions?: Apollo.MutationHookOptions<DeleteExpenseMutation, DeleteExpenseMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteExpenseMutation, DeleteExpenseMutationVariables>(DeleteExpenseDocument, options);
+      }
+export type DeleteExpenseMutationHookResult = ReturnType<typeof useDeleteExpenseMutation>;
+export type DeleteExpenseMutationResult = Apollo.MutationResult<DeleteExpenseMutation>;
+export type DeleteExpenseMutationOptions = Apollo.BaseMutationOptions<DeleteExpenseMutation, DeleteExpenseMutationVariables>;
 export const GetExpenseByMonthDocument = gql`
     query getExpenseByMonth($year: Float!, $month: Float!) {
   getExpenseByMonth(month: $month, year: $year) {

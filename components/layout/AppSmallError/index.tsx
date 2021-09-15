@@ -1,15 +1,15 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 
-import styles from "./index.module.scss";
+import styles from './index.module.scss';
 
 interface ResponseError {
-  text: string;
   className?: string;
+  text: string;
 }
 
 const ResponseError: FC<ResponseError> = ({ text, className }) => {
   return (
-    <p className={`${styles["small-error"]} ${className ? className : ""}`}>
+    <p className={`${styles['small-error']} ${className ? className : ''}`}>
       {text}
     </p>
   );

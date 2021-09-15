@@ -2,8 +2,9 @@ mutation createExpense(
   $purpose: String!
   $moneySpent: String!
   $date: String!
+  $categoryId: Float
 ) {
-  createExpense(purpose: $purpose, moneySpent: $moneySpent, date: $date) {
+  createExpense(purpose: $purpose, moneySpent: $moneySpent, date: $date, categoryId: $categoryId) {
     expense {
       id
       purpose

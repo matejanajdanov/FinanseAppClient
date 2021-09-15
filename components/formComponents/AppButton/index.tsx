@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 
 interface ButtonComponentInterface
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: 'primary' | 'secondary' | 'light';
+  color?: 'primary' | 'secondary' | 'light' | 'danger';
   width?: 'full' | 'small';
 }
 

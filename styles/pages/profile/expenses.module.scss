@@ -1,5 +1,8 @@
-@import "styles/vars.scss";
+@import 'styles/vars.scss';
 
+.table-container {
+  background-color: $dark-buttons;
+}
 .accordions-container {
   display: flex;
   gap: 2rem;
@@ -17,5 +20,19 @@
 @media only screen and (max-width: 600px) {
   .exp-heading {
     text-align: center;
+  }
+}
+.expenses {
+  color: #fff !important;
+}
+.modify-inputs {
+  input {
+    background-color: #323236;
+  }
+  select {
+    background-color: #323236 !important;
+  }
+  option {
+    background-color: #323236 !important;
   }
 }

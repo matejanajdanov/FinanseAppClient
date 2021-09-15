@@ -1,13 +1,12 @@
-import Wrapper from "components/layout/AppWrapper";
-import React, { useState } from "react";
-
-import { Navbar } from "sections";
+import { AppNavbar } from 'components';
+import Wrapper from 'components/layout/AppWrapper';
+import React, { useState } from 'react';
 
 const index = () => {
   return (
     <div>
-      <Navbar />
-      <Wrapper width="wrapper-lg">Some text</Wrapper>
+      <AppNavbar />
+      <Wrapper width='wrapper-lg'>Some text</Wrapper>
     </div>
   );
 };

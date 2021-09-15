@@ -1,4 +1,4 @@
-@import "vars.scss";
+@import 'vars.scss';
 
 * {
   box-sizing: border-box;
@@ -8,7 +8,7 @@
 
 html,
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 html {
@@ -36,7 +36,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 
@@ -81,6 +81,13 @@ input[type="number"] {
 @for $i from 1 through 20 {
   .pl-#{$i} {
     padding-left: $i * 0.5 + rem !important;
+  }
+}
+
+// FONT SIZES
+@for $i from 1 through 54 {
+  .font-#{$i} {
+    font-size: $i * (1/10) + rem !important;
   }
 }
 

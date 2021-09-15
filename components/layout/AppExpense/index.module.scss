@@ -1,0 +1,42 @@
+@import 'styles/vars.scss';
+.month {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+.expense-table {
+  display: flex;
+  button {
+    background: none;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+    &:last-of-type {
+      margin-left: auto;
+      margin-right: 1rem;
+    }
+  }
+  button:hover {
+    color: $primary;
+  }
+  div,
+  p {
+    font-size: 1.4rem;
+    border-bottom: 1px solid $light;
+    display: flex;
+    width: 100%;
+    padding: 0.7rem 0rem;
+    &:last-of-type {
+      border-right: none;
+      width: 25%;
+    }
+  }
+}
+.table-heading {
+  div {
+    font-size: 1.7rem !important;
+    font-weight: 700;
+    border-bottom: 2px solid $light;
+  }
+}

@@ -1,0 +1,6 @@
+mutation deleteExpense($id: Float!) {
+  deleteExpense(id: $id) {
+    isDeleted
+    message
+  }
+}

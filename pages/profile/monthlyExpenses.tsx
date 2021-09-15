@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { useGetExpenseByMonthQuery } from "generated/generate";
-import Expense from "sections/layout/Expense";
-import { AppWrapper } from "components";
-import { monthNames } from "types";
+import { useGetExpenseByMonthQuery } from 'generated/generate';
+import { AppExpense } from 'components';
+import { AppWrapper } from 'components';
+import { monthNames } from 'types';
 
 const monthlyExpenses = () => {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -18,7 +18,7 @@ const monthlyExpenses = () => {
         <div>
           {data.getExpenseByMonth.map((expense) => {
             return (
-              <Expense
+              <AppExpense
                 month={monthNames[month]}
                 date={expense.date}
                 // expenses={expense.expenses}

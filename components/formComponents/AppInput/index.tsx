@@ -1,13 +1,13 @@
-import React, { FC, InputHTMLAttributes } from "react";
+import React, { FC, InputHTMLAttributes } from 'react';
 
-import SmallError from "components/layout/AppSmallError";
-import styles from "./index.module.scss";
+import SmallError from 'components/layout/AppSmallError';
+import styles from './index.module.scss';
 
 interface InputComponent extends InputHTMLAttributes<HTMLInputElement> {
   handleInput: (e: React.FormEvent<HTMLInputElement>) => void;
+  errorText?: string;
   value: string;
   name: string;
-  errorText?: string;
   label?: {
     text: string;
     className?: string;
@@ -19,11 +19,11 @@ const InputComponent: FC<InputComponent> = ({
   placeholder,
   className,
   errorText,
-  id,
   label,
   value,
   name,
   type,
+  id,
   ...props
 }) => {
   return (
@@ -31,8 +31,8 @@ const InputComponent: FC<InputComponent> = ({
       {label && (
         <label
           htmlFor={id}
-          className={`${styles["form-label"]} ${
-            label.className ? label.className : ""
+          className={`${styles['form-label']} ${
+            label.className ? label.className : ''
           } `}
         >
           {label.text}
@@ -42,8 +42,8 @@ const InputComponent: FC<InputComponent> = ({
       <input
         {...props}
         id={id}
-        type={type ? type : "text"}
-        className={`${styles["form-input"]} ${className ? className : ""}`}
+        type={type ? type : 'text'}
+        className={`${styles['form-input']} ${className ? className : ''}`}
         placeholder={placeholder}
         onChange={handleInput}
         value={value}

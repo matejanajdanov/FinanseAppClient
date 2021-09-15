@@ -1,4 +1,4 @@
-@import "styles/vars.scss";
+@import 'styles/vars.scss';
 
 .accordion {
   background-color: $dark_buttons;
@@ -7,12 +7,10 @@
   padding: 18px;
   width: 100%;
   border: none;
-  text-align: left;
   outline: none;
   font-size: 1.8rem;
   transition: 0.3s;
   border-radius: 1rem;
-  text-align: center;
 }
 .accordion:hover {
   color: $primary;

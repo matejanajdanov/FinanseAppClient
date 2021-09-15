@@ -1,15 +1,15 @@
-import router from "next/router";
-import React from "react";
+import router from 'next/router';
+import React, { FC } from 'react';
 
-import { AppLink, AppWrapper } from "components";
-import styles from "./index.module.scss";
+import { AppLink, AppWrapper } from 'components';
+import styles from './index.module.scss';
 import {
   useCurrentUserQuery,
   CurrentUserDocument,
   useLogoutMutation,
-} from "generated/generate";
+} from 'generated/generate';
 
-const Navbar = () => {
+const AppNavbar: FC = () => {
   const { data } = useCurrentUserQuery();
 
   const [logout] = useLogoutMutation();
@@ -25,7 +25,7 @@ const Navbar = () => {
             });
         },
       });
-      router.push("/");
+      router.push('/');
     };
     if (data?.currentUser) {
       return (
@@ -33,17 +33,17 @@ const Navbar = () => {
           {!data.currentUser.profile ? (
             <>
               <AppLink
-                type="small-link"
-                color="light"
-                href="/profile/createProfile"
+                type='small-link'
+                color='light'
+                href='/profile/createProfile'
               >
                 Create profile
               </AppLink>
               <AppLink
-                type="small-link"
-                color="light"
-                bgColor="bg-dark"
-                href="/"
+                type='small-link'
+                color='light'
+                bgColor='bg-dark'
+                href='/'
                 linkClick={onLogout}
               >
                 Logout
@@ -52,34 +52,34 @@ const Navbar = () => {
           ) : (
             <>
               <AppLink
-                type="small-link"
-                color="light"
-                bgColor="bg-dark"
-                href="/profile"
+                type='small-link'
+                color='light'
+                bgColor='bg-dark'
+                href='/profile'
               >
                 {data.currentUser.profile.firstName}'s stats
               </AppLink>
               <AppLink
-                type="small-link"
-                color="light"
-                bgColor="bg-dark"
-                href="/profile/expenses"
+                type='small-link'
+                color='light'
+                bgColor='bg-dark'
+                href='/profile/expenses'
               >
                 Expenses
               </AppLink>
               <AppLink
-                type="small-link"
-                color="light"
-                bgColor="bg-dark"
-                href="/profile/incomes"
+                type='small-link'
+                color='light'
+                bgColor='bg-dark'
+                href='/profile/incomes'
               >
                 Incomes
               </AppLink>
               <AppLink
-                type="small-link"
-                color="light"
-                bgColor="bg-dark"
-                href="/"
+                type='small-link'
+                color='light'
+                bgColor='bg-dark'
+                href='/'
                 linkClick={onLogout}
               >
                 Logout
@@ -92,12 +92,12 @@ const Navbar = () => {
   };
 
   return (
-    <AppWrapper width="wrapper-md">
-      <nav className={styles["nav"] + " bg-primary"}>
-        <div className={styles["link-wrapper"]}>{renderLoggedUserNav()}</div>
+    <AppWrapper width='wrapper-md'>
+      <nav className={styles['nav'] + ' bg-primary'}>
+        <div className={styles['link-wrapper']}>{renderLoggedUserNav()}</div>
       </nav>
     </AppWrapper>
   );
 };
 
-export default Navbar;
+export default AppNavbar;

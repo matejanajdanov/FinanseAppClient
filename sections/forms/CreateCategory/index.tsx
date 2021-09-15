@@ -53,8 +53,6 @@ const CreateCategory = () => {
             query: CurrentUserDocument,
           });
           if (user?.currentUser && data.data?.createCategory.category) {
-            console.log(data.data.createCategory.category, 'RESPONSE');
-            console.log(user.currentUser.category, 'USER');
             if (user.currentUser.category)
               cache.writeQuery<CurrentUserQuery>({
                 query: CurrentUserDocument,
@@ -93,11 +91,9 @@ const CreateCategory = () => {
             className='mb-1'
           />
           <AppSmallError text={credentials.errors} />
-          <AppButton
-            className='secondary'
-            text='Create category'
-            type='submit'
-          />
+          <AppButton className='secondary' type='submit'>
+            Create category
+          </AppButton>
         </form>
       </AppFormCard>
     </div>
